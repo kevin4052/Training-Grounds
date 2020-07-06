@@ -14,6 +14,9 @@ class Character {
         this.gravity = 0.5;
         this.friction = 0.85;
         this.jump = true;
+        this.holdRight = false;
+        this.holdLeft = false;
+        this.onGround = false;
     }
 
     draw(){
@@ -22,40 +25,89 @@ class Character {
         // console.log('draw');
     }
 
-    update(event){
-        if (event === 39 && this.x < this.canvas.width - this.width) {
-            this.xVel += this.moveSpeed;
+    update(){
+        if (this.holdLeft){
+            this.xVel = this.moveSpeed * -1;
         }
-        if (event === 37 && this.x > 0) {
-            this.xVel -= this.moveSpeed;
-        }
-        if (event === 38 && this.jump === false) {
-            this.yVel -= 100;
-            this.jump = true;
+        if (this.holdRight){
+            this.xVel = this.moveSpeed;
         }
 
-        this.yVel += this.gravity;
         this.x += this.xVel;
         this.y += this.yVel;
-        this.xVel *= this.friction;
-        this.yVel *= this.friction;
+        
+        if (this.y > this.canvas.height - this.height){
+            this.xVel *= this.friction;
+            this.jump = true;
+        } else {
+            this.yVel += this.gravity;
+        }
 
         if (this.y > this.canvas.height - this.height){
             this.jump = false;
             this.y = this.canvas.height - this.height;
             this.yVel = 0;
         }
+    }
 
-        if (this.jump) this.yVel += this.gravity + 4;
-
-        if (this.x - this.width > this.canvas.width){
-            this.x = 0;
+    keyDown(event){
+        switch(event.keyCode){
+            case 37:
+            this.holdLeft = true;
+            break;
+            case 38:
+                if(this.jump === false) this.yVel = -this.moveSpeed * 2;
+                break;
+            case 39:
+                this.holdRight = true;
+                break;
         }
+        // if (event === 39 && this.x < this.canvas.width - this.width) {
+        //     this.xVel += this.moveSpeed;
+        // }
+        // if (event === 37 && this.x > 0) {
+        //     this.xVel -= this.moveSpeed;
+        // }
+        // if (event === 38 && this.jump === false) {
+        //     this.yVel -= 70;
+        //     this.jump = true;
+        // }
 
-        if (this.x < -this.width) {
-            this.x = this.canvas.width - this.width;
-        }
+        // this.yVel += this.gravity;
+        // this.x += this.xVel;
+        // this.y += this.yVel;
+        // this.xVel *= this.friction;
+        // this.yVel *= this.friction;
+
+        // if (this.y > this.canvas.height - this.height){
+        //     this.jump = false;
+        //     this.y = this.canvas.height - this.height;
+        //     this.yVel = 0;
+        // }
+
+        // if (this.jump) this.yVel += this.gravity + 4;
+
+        // if (this.x - this.width > this.canvas.width){
+        //     this.x = 0;
+        // }
+
+        // if (this.x < -this.width) {
+        //     this.x = this.canvas.width - this.width;
+        // }
         // console.log('update');
-        
+    }
+
+    keyUp(event){
+        switch(event.keyCode){
+            case 37:
+            this.holdLeft = false;
+            break;
+            case 38:
+                if(this.yVel < -3) this.yVel = -3;
+                break;
+            case 39:
+                this.holdRight = false;
+                break;
+        }
     }
 }
