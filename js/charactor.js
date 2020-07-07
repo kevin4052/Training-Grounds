@@ -13,7 +13,7 @@ class Character {
         this.xVel = 0;
         this.yVel = 0;
         this.moveSpeed = 15;
-        this.gravity = 2;
+        this.gravity = .5;
         this.friction = 0.70;
         this.jump = {'state': true, 'count': 0};
         this.holdRight = false;

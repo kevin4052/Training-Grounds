@@ -16,6 +16,11 @@ class Game {
     checkCollision(){
         if (this.player.getLeft() > this.obstacle.getRight() && this.player.getRight() < this.obstacle.getLeft()
         && this.player.getBottom() > this.obstacle.getTop() && this.player.getTop() < this.obstacle.getBottom()) {
+            if(this.player.oldY < this.player.y){
+                this.player.y = this.obstacle.y - this.player.height - 75;
+                this.player.yVel = 0
+                this.player.jump.state = false;
+            }
             this.player.x = this.player.oldX;
             this.player.y = this.player.oldY;
             this.player.jump.state = false;
