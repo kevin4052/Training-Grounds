@@ -12,7 +12,7 @@ class Character {
         this.oldY;
         this.xVel = 0;
         this.yVel = 0;
-        this.moveSpeed = 5;
+        this.moveSpeed = 10;
         this.gravity = 0.5;
         this.friction = 0.70;
         this.jump = {'state': true, 'count': 0};
@@ -47,7 +47,6 @@ class Character {
         this.oldY = this.y;
 
         //Left and Right movement
-        this.x += this.xVel;
         if (this.holdLeft){
             this.xVel = this.moveSpeed * -1;
         }
@@ -55,18 +54,31 @@ class Character {
             this.xVel = this.moveSpeed;
         }
 
-        //Up and Down movement;
-        this.y += this.yVel;        
-        if (this.getBottom() >= this.canvas.height){
-            this.y = this.canvas.height - this.height;
+        this.x += this.xVel;
+        this.y += this.yVel;
+
+        //Up and Down movement;               
+        if (this.onGround){
+            // this.y = this.canvas.height - this.height;
             this.xVel *= this.friction;
             this.yVel = 0;
             this.jump.state = false;
+            console.log('on ground');
         } else {
             this.yVel += this.gravity;
             this.xVel *= 0.95;
             this.jump.state = true;
+            console.log('not on ground');
         }
+        
+
+        //collision
+        // if (this.onGround) {
+        //     this.xVel *= this.friction;
+        //     this.yVel = 0;
+        //     this.jump.state = false;
+        //     console.log('character collision');
+        // }
 
         //canvas boundaries
         if (this.getLeft() > this.canvas.width){
