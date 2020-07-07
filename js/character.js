@@ -12,8 +12,8 @@ class Character {
         this.oldY;
         this.xVel = 0;
         this.yVel = 0;
-        this.moveSpeed = 15;
-        this.gravity = 2;
+        this.moveSpeed = 5;
+        this.gravity = 0.5;
         this.friction = 0.70;
         this.jump = {'state': true, 'count': 0};
         this.holdRight = false;
@@ -38,7 +38,7 @@ class Character {
     }
 
     draw(){
-        this.ctx.fillStyle = "black";
+        this.ctx.fillStyle = "red";
         this.ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
@@ -46,6 +46,8 @@ class Character {
         this.oldX = this.x;
         this.oldY = this.y;
 
+        //Left and Right movement
+        this.x += this.xVel;
         if (this.holdLeft){
             this.xVel = this.moveSpeed * -1;
         }
@@ -53,29 +55,25 @@ class Character {
             this.xVel = this.moveSpeed;
         }
 
-        this.x += this.xVel;
-        this.y += this.yVel;
-        
-        if (this.y > this.canvas.height - this.height){
+        //Up and Down movement;
+        this.y += this.yVel;        
+        if (this.getBottom() >= this.canvas.height){
+            this.y = this.canvas.height - this.height;
             this.xVel *= this.friction;
-            this.jump.state = true;
+            this.yVel = 0;
+            this.jump.state = false;
         } else {
             this.yVel += this.gravity;
             this.xVel *= 0.95;
+            this.jump.state = true;
         }
 
-        if (this.y > this.canvas.height - this.height){
-            this.jump.state = false;
-            this.y = this.canvas.height - this.height;
-            this.yVel = 0;
-        }
-
-        if (this.x - this.width > this.canvas.width){
-            this.x = 0;
-        }
-
-        if (this.x < -this.width) {
+        //canvas boundaries
+        if (this.getLeft() > this.canvas.width){
             this.x = this.canvas.width - this.width;
+        }
+        if (this.x < 0) {
+            this.x = 0;
         }
     }
 
