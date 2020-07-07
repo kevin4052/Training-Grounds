@@ -7,34 +7,51 @@ class Character {
         this.hp = 100;
         this.attack = 10;
         this.x = x;
-        this.y = y;        
+        this.y = y;
+        this.oldX;
+        this.oldY;
         this.xVel = 0;
         this.yVel = 0;
         this.moveSpeed = 15;
         this.gravity = 2;
-        this.friction = 0.85;
+        this.friction = 0.70;
         this.jump = {'state': true, 'count': 0};
         this.holdRight = false;
         this.holdLeft = false;
         this.onGround = false;
     }
 
+    getRight(){
+        return this.x;
+    }
+
+    getLeft(){
+        return this.x + this.width;
+    }
+
+    getTop(){
+        return this.y;
+    }
+
+    getBottom(){
+        return this.y + this.height;
+    }
+
     draw(){
         this.ctx.fillStyle = "black";
         this.ctx.fillRect(this.x, this.y, this.width, this.height);
-        // console.log('draw');
     }
 
     update(){
+        this.oldX = this.x;
+        this.oldY = this.y;
+
         if (this.holdLeft){
             this.xVel = this.moveSpeed * -1;
         }
         if (this.holdRight){
             this.xVel = this.moveSpeed;
         }
-        // if (!this.jump.state){
-        //     this.yVel = -this.moveSpeed * 2;
-        // }
 
         this.x += this.xVel;
         this.y += this.yVel;
@@ -44,6 +61,7 @@ class Character {
             this.jump.state = true;
         } else {
             this.yVel += this.gravity;
+            this.xVel *= 0.95;
         }
 
         if (this.y > this.canvas.height - this.height){

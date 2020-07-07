@@ -1,26 +1,22 @@
 const canvas = document.querySelector('#game-canvas');
 const ctx = canvas.getContext('2d');
 
-const playerTest = new Character(canvas, ctx, 0, 0, 50, 50);
-const controller = new Controller();
+const game = new Game(ctx, canvas);
 
-
-function init() {
+function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    playerTest.update();
-    playerTest.draw();
-
-    window.requestAnimationFrame(init);
+    game.init();
+    window.requestAnimationFrame(gameLoop);
 }
 
 document.addEventListener('keydown', event => {
     event.preventDefault();
-    playerTest.keyDown(event);
+    game.player.keyDown(event);
 });
 
 document.addEventListener('keyup', event => {
     event.preventDefault();
-    playerTest.keyUp(event);
+    game.player.keyUp(event);
 });
 
-init();
+gameLoop();
