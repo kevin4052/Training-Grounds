@@ -1,21 +1,25 @@
-class Game extends World {
-    constructor(ctx, canvas) {
+class Game{
+    constructor(ctx, canvas, world) {
         this.ctx = ctx;
         this.canvas = canvas;
+        this.world = world;
         this.player = new Character(this.canvas, this.ctx, 0, 0, 25, 25);
         this.obstacles = [];
         this.floor = new Obstacle(this.ctx, 0, this.canvas.height, this.canvas.width, 100);
         this.didCollide = false;
     }
 
-    generateWorld(map) {
-        this.world.columns = 8;
-        this.world.rows = 6;
+    generateWorld() {
+        let mapIndex = 0;
+        for (let y = 0; y < this.world.mapHeight; y += this.world.tileSize){
+            for(let x = 0; x < this.world.mapWidth; x += this.world.tileSize){
+                if(this.world.map[mapIndex] === 1){
+                    this.obstacles.push(new Obstacle(this.ctx, x, y, this.world.tileSize, this.world.tileSize))
+                }
+                mapIndex++;
+            }
+        }
 
-
-        map.forEach(tile => {
-
-        })
         // for (let i = 0; i < 50; i++) {
         //     let x = Math.floor(Math.random() * (this.canvas.width - 50));
         //     let y = 50 + Math.floor(Math.random() * (this.canvas.height - 50));
