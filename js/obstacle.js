@@ -1,10 +1,10 @@
 class Obstacle {
-    constructor(ctx) {
+    constructor(ctx, x, y, width, height) {
         this.ctx = ctx;
-        this.width = 300;
-        this.height = 50;
-        this.x = (this.ctx.canvas.width - this.width) / 2;
-        this.y = (this.ctx.canvas.height - this.height) - 100;
+        this.width = width;
+        this.height = height;
+        this.x = x;//(this.ctx.canvas.width - this.width) / 2;
+        this.y = y;//(this.ctx.canvas.height - this.height) - 20;
     }
 
     draw(color) {
@@ -13,11 +13,11 @@ class Obstacle {
     }
 
     getRight() {
-        return this.x;
+        return this.x + this.width;
     }
 
     getLeft() {
-        return this.x + this.width;
+        return this.x;
     }
 
     getTop() {
