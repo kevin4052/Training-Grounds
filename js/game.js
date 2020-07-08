@@ -1,5 +1,5 @@
-class Game {
-    constructor(ctx, canvas){
+class Game extends World {
+    constructor(ctx, canvas) {
         this.ctx = ctx;
         this.canvas = canvas;
         this.player = new Character(this.canvas, this.ctx, 0, 0, 25, 25);
@@ -8,20 +8,27 @@ class Game {
         this.didCollide = false;
     }
 
-    generateWorld() {
-        for(let i = 0; i < 50; i++){
-            let x = Math.floor(Math.random() * (this.canvas.width - 50));
-            let y = 50 + Math.floor(Math.random() * (this.canvas.height - 50));
-            let w = 50 + Math.floor(Math.random() * 150);
-            let h = 10 + Math.floor(Math.random() * 30);
-            this.obstacles.push(new Obstacle(this.ctx, x, y, w, h));
-        }
-        this.obstacles.push(this.floor);
+    generateWorld(map) {
+        this.world.columns = 8;
+        this.world.rows = 6;
+
+
+        map.forEach(tile => {
+
+        })
+        // for (let i = 0; i < 50; i++) {
+        //     let x = Math.floor(Math.random() * (this.canvas.width - 50));
+        //     let y = 50 + Math.floor(Math.random() * (this.canvas.height - 50));
+        //     let w = 50 + Math.floor(Math.random() * 150);
+        //     let h = 10 + Math.floor(Math.random() * 30);
+        //     this.obstacles.push(new Obstacle(this.ctx, x, y, w, h));
+        // }
+        // this.obstacles.push(this.floor);
     }
 
-    init(){
-        this.obstacles.forEach(obstacle =>{
-            let color = 'black';//'#' + Math.floor(Math.random()*16777215).toString(16);
+    init() {
+        this.obstacles.forEach(obstacle => {
+            let color = 'black'; //'#' + Math.floor(Math.random()*16777215).toString(16);
             obstacle.draw(color);
         })
         this.player.update(this.didCollide);
@@ -31,30 +38,30 @@ class Game {
     }
 
 
-    checkCollision(){
+    checkCollision() {
         //Axis-Aligned Bounding Box collision detection
         this.obstacles.forEach(obstacle => {
-          if (this.player.getLeft() < obstacle.getRight() && this.player.getRight() > obstacle.getLeft()
-            && this.player.getBottom() > obstacle.getTop() && this.player.getTop() < obstacle.getBottom()) {
+            if (this.player.getLeft() < obstacle.getRight() && this.player.getRight() > obstacle.getLeft() &&
+                this.player.getBottom() > obstacle.getTop() && this.player.getTop() < obstacle.getBottom()) {
                 // console.log('touch')
 
                 //collide with top of object
                 if (this.player.oldY < this.player.y) {
 
-                    this.player.setBottom(obstacle.getTop());
+                    this.player.oldY = this.player.setBottom(obstacle.getTop());
                     this.player.yVel = 0
                     this.player.jump.state = false;
 
-                } else if (this.player.oldY > this.player.y){
+                } else if (this.player.oldY > this.player.y) {
 
                     this.player.setTop(obstacle.getBottom());
                     this.player.jump.state = true;
 
-                } else if (this.player.oldX < this.player.x){
+                } else if (this.player.oldX < this.player.x) {
 
                     this.player.setRight(obstacle.getLeft());
 
-                } else if (this.player.oldX > this.player.x){
+                } else if (this.player.oldX > this.player.x) {
 
                     this.player.setLeft(obstacle.getRight());
                 }
@@ -69,6 +76,6 @@ class Game {
 
 
         })
-        
+
     }
 }
