@@ -14,8 +14,9 @@ class Character {
         this.yVel = 0;
         this.moveSpeed = 5;
         this.gravity = 0.5;
-        this.friction = 0.70;
+        this.friction = 0.75;
         this.jump = {'state': true, 'count': 0};
+        this.onGround = false;
         this.moveRight = false;
         this.moveLeft = false;
         this.moveUp = false;
@@ -71,16 +72,16 @@ class Character {
         this.y += this.yVel;
 
         //Up and Down movement;               
-        if (collide) {
+        if (this.onGround) {
             // this.y = this.canvas.height - this.height;
             this.xVel *= this.friction;
             this.yVel = 0;
-            // this.jump.state = false;
+            this.jump.state = false;
             // console.log('on ground');
         } else {
             this.yVel += this.gravity;
-            this.xVel *= 0.95;
-            // this.jump.state = true;
+            this.xVel *= this.friction;//0.95;
+            this.jump.state = true;
             // console.log('not on ground');
         }
 

@@ -3,10 +3,8 @@ const ctx = canvas.getContext('2d');
 
 const world = new World();
 const game = new Game(ctx, canvas, world);
-canvas.width = world.columns * world.tileSize;//800;
-canvas.height = world.rows * world.tileSize;//600;
-
-
+canvas.width = world.columns * world.tileSize;
+canvas.height = world.rows * world.tileSize;
 
 game.generateWorld();
 
@@ -26,4 +24,4 @@ document.addEventListener('keyup', event => {
     game.player.keyUp(event);
 });
 
-gameLoop();
+//gameLoop();

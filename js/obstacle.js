@@ -3,8 +3,8 @@ class Obstacle {
         this.ctx = ctx;
         this.width = width;
         this.height = height;
-        this.x = x;//(this.ctx.canvas.width - this.width) / 2;
-        this.y = y;//(this.ctx.canvas.height - this.height) - 20;
+        this.x = x;
+        this.y = y;
     }
 
     draw(color) {

@@ -1,3 +1,7 @@
+body {
+    background-color: #2c2b2b;
+}
+
 #game-canvas {
     position: absolute;
     top: 50%;
@@ -5,4 +9,5 @@
     transform: translate(-50%, -50%);
     border: 1px solid black;
     width: 50vw;
+    background-color: #ffffff;
 }

@@ -1,16 +1,19 @@
 class World {
     constructor() {
-        this.columns = 10;
-        this.rows = 6;
-        this.tileSize = 40;
+        this.columns = 15;
+        this.rows = 8;
+        this.tileSize = 70;
         this.mapHeight = this.rows * this.tileSize;
         this.mapWidth = this.columns * this.tileSize;
-        this.map = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+        //may change map to a string for easier map design
+        this.map = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+                    1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
         ]
     }
 
