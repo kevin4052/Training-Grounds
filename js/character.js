@@ -20,6 +20,8 @@ class Character {
         this.moveRight = false;
         this.moveLeft = false;
         this.moveUp = false;
+        this.playerSprite = new Image();
+        this.playerSprite.src = './images/p1_spritesheet.png'
     }
 
     //get character edges
@@ -52,7 +54,8 @@ class Character {
 
 
     draw() {
-        this.ctx.fillStyle = "red";
-        this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        this.ctx.fillStyle = "white";
+        // this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        this.ctx.drawImage(this.playerSprite, 67, 196, 66, 92, this.x, this.y, this.width, this.height);
     }
 }

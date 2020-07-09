@@ -11,7 +11,8 @@ class Game {
         this.tileType;
         this.collision = {
             1: (object, row, column) => {
-                this.topCollision(object, row);
+                if(this.topCollision(object, row)) return;
+                if(this.leftCollision(object, column)) return;
             }
         };
     }
@@ -79,7 +80,19 @@ class Game {
             if (object.y + object.height > tileTop && object.oldY + object.height <= tileTop) {
                 object.jumping = false;
                 object.yVel = 0;
-                object.oldY = object.y = tileTop - object.height; //- 0.01;
+                object.oldY = object.y = tileTop - object.height - 0.01;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    leftCollision(object, column){
+        if(object.xVel > 0){
+            let tileLeft = column * this.world.tileSize;
+            if (object.x + object.width * 0.5 > tileLeft && object.oldX <= left){
+                object.xVel = 0;
+                object.x = object.oldX = left - object.width - 0.01;
                 return true;
             }
         }
@@ -89,11 +102,11 @@ class Game {
     
     
     checkCollision() {
-        const collision = {
-            1: (object, row, column) => {
-                if (this.topCollision(object, row)) return;
-            }
-        };
+        // const collision = {
+        //     1: (object, row, column) => {
+        //         if (this.topCollision(object, row)) return;
+        //     }
+        // };
 
 
         
@@ -105,47 +118,6 @@ class Game {
         if (this.tileType != 0){
             this.collision[this.tileType](this.player, this.tileY, this.tileX);
         }
-
-
-
-        //Axis-Aligned Bounding Box collision detection
-        // this.obstacles.forEach(obstacle => {
-            // if (this.player.getTop() < obstacle.getBottom() && this.player.getLeft() < obstacle.getRight() ||
-            //     this.player.getTop() < obstacle.getBottom() && this.player.getRight() < obstacle.getLeft() ||
-            //     this.player.getBottom() > obstacle.getTop() && this.player.getLeft() > obstacle.getRight() ||
-            //     this.player.getBottom() > obstacle.getTop() && this.player.getRight() > obstacle.getLeft()) {
-            //     console.log('touch')
-
-            //     //collide with top of object
-            //     if (this.player.oldY < this.player.y) {
-
-            //         this.player.oldY = this.player.setBottom(obstacle.getTop()) + 0.1;
-            //         this.player.yVel = 0
-            //         this.player.jumping = false;
-
-            //     } else if (this.player.oldY > this.player.y) {
-
-            //         this.player.setTop(obstacle.getBottom());
-            //         this.player.jumping = true;
-
-            //     } else if (this.player.oldX < this.player.x) {
-
-            //         this.player.setRight(obstacle.getLeft());
-
-            //     } else if (this.player.oldX > this.player.x) {
-
-            //         this.player.setLeft(obstacle.getRight());
-            //     }
-
-            //     // return true;
-            //     // this.didCollide = true;
-            // } else {
-            //     console.log('none')
-            //     // return false;
-            //     // this.didCollide = false;
-            // }
-
-        // })
 
     }
 }
