@@ -8,7 +8,7 @@ class Game {
         this.obstacles = [];
         this.tileX;
         this.tileY;
-        this.tileType;
+        this.tileType;        
         this.collision = {
             1: (object, row, column) => {
                 if(this.topCollision(object, row)) return;
@@ -80,7 +80,7 @@ class Game {
             if (object.y + object.height > tileTop && object.oldY + object.height <= tileTop) {
                 object.jumping = false;
                 object.yVel = 0;
-                object.oldY = object.y = tileTop - object.height - 0.01;
+                object.oldY = object.y = tileTop - object.height;// - 0.01;
                 return true;
             }
         }
@@ -90,9 +90,9 @@ class Game {
     leftCollision(object, column){
         if(object.xVel > 0){
             let tileLeft = column * this.world.tileSize;
-            if (object.x + object.width * 0.5 > tileLeft && object.oldX <= left){
+            if (object.x + object.width * 0.5 > tileLeft && object.oldX <= tileLeft){
                 object.xVel = 0;
-                object.x = object.oldX = left - object.width - 0.01;
+                object.x = object.oldX = tileLeft - object.width;// - 0.01;
                 return true;
             }
         }
@@ -102,14 +102,6 @@ class Game {
     
     
     checkCollision() {
-        // const collision = {
-        //     1: (object, row, column) => {
-        //         if (this.topCollision(object, row)) return;
-        //     }
-        // };
-
-
-        
         this.tileX = Math.floor((this.player.x + this.player.width * 0.5) / this.world.tileSize);
         this.tileY = Math.floor((this.player.y + this.player.height) / this.world.tileSize);
         this.tileType = this.world.map[this.tileY * this.world.columns + this.tileX];
