@@ -16,12 +16,12 @@ let loop = setInterval(function gameLoop() {
 
 document.addEventListener('keydown', event => {
     event.preventDefault();
-    game.player.keyDown(event);
+    game.controller.keyDown(event);
 });
 
 document.addEventListener('keyup', event => {
     event.preventDefault();
-    game.player.keyUp(event);
+    game.controller.keyUp(event);
 });
 
 //gameLoop();
