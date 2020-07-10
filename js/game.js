@@ -8,20 +8,14 @@ class Game {
         this.obstacles = [];
         this.tileX;
         this.tileY;
-        this.tileType;        
-        this.collision = {
-            1: (object, row, column) => {
-                if(this.topCollision(object, row)) return;
-                if(this.leftCollision(object, column)) return;
-            }
-        };
+        this.tileType;
     }
 
     generateWorld() {
         let mapIndex = 0;
         for (let y = 0; y < this.world.mapHeight; y += this.world.tileSize) {
             for (let x = 0; x < this.world.mapWidth; x += this.world.tileSize) {
-                if (this.world.map[mapIndex] === 1) {
+                if (this.world.map1[mapIndex] === 'g') {
                     this.obstacles.push(new Obstacle(this.ctx, x, y, this.world.tileSize, this.world.tileSize))
                 }
                 mapIndex++;
@@ -34,7 +28,6 @@ class Game {
             let color = 'black';
             obstacle.draw(color);
         })
-        // this.player.update(this.didCollide);
         this.update();
         this.player.draw();
         this.checkCollision();
@@ -74,42 +67,34 @@ class Game {
         }
     }
 
-    topCollision(object, row){
-        if(object.yVel > 0){
-            let tileTop = row * this.world.tileSize;
-            if (object.y + object.height > tileTop && object.oldY + object.height <= tileTop) {
-                object.jumping = false;
-                object.yVel = 0;
-                object.oldY = object.y = tileTop - object.height;// - 0.01;
-                return true;
+    checkCollision(){
+        //moving in the x direction
+        if(this.player.xVel < 0){ //moving left
+            if(this.world.getTile(this.player.x, this.player.y) !== '.' || this.world.getTile(this.player.x, this.player.y + this.player.height - 5) !== '.'){
+                this.player.x = this.player.oldX;
+                this.player.xVel = 0;
+            }
+        } else { //moving right
+            if(this.world.getTile(this.player.x + this.player.width, this.player.y) !== '.' || this.world.getTile(this.player.x + this.player.width, this.player.y + this.player.height - 5) !== '.'){
+                this.player.x = this.player.oldX;
+                this.player.xVel = 0;
             }
         }
-        return false;
-    }
 
-    leftCollision(object, column){
-        if(object.xVel > 0){
-            let tileLeft = column * this.world.tileSize;
-            if (object.x + object.width * 0.5 > tileLeft && object.oldX <= tileLeft){
-                object.xVel = 0;
-                object.x = object.oldX = tileLeft - object.width;// - 0.01;
-                return true;
+        this.player.jumping = true;
+
+        //moving up and down
+        if(this.player.yVel <= 0){
+            if(this.world.getTile(this.player.x, this.player.y) !== '.' || this.world.getTile(this.player.x + this.player.width - 5, this.player.y) !== '.'){
+                this.player.y = this.player.oldY;
+                this.player.yVel = 0;
+            }
+        } else {
+            if(this.world.getTile(this.player.x, this.player.y + this.player.height) !== '.' || this.world.getTile(this.player.x + this.player.width - 5, this.player.y + this.player.height) !== '.'){
+                this.player.y = this.player.oldY;
+                this.player.yVel = 0;
+                this.player.jumping = false;
             }
         }
-        return false;
-    }
-
-    
-    
-    checkCollision() {
-        this.tileX = Math.floor((this.player.x + this.player.width * 0.5) / this.world.tileSize);
-        this.tileY = Math.floor((this.player.y + this.player.height) / this.world.tileSize);
-        this.tileType = this.world.map[this.tileY * this.world.columns + this.tileX];
-        // console.log(this.tileType);
-
-        if (this.tileType != 0){
-            this.collision[this.tileType](this.player, this.tileY, this.tileX);
-        }
-
     }
 }
