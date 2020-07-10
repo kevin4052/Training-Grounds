@@ -12,8 +12,8 @@ class Character {
         this.oldY;
         this.xVel = 0;
         this.yVel = 0;
-        this.moveSpeed = 10;
-        this.gravity = 0.7;
+        this.moveSpeed = 15;
+        this.gravity = 2;
         this.friction = 0.75;
         this.jumping = true;
         this.onGround = false;
@@ -21,7 +21,7 @@ class Character {
         this.moveLeft = false;
         this.moveUp = false;
         this.playerSprite = new Image();
-        this.playerSprite.src = './images/p1_spritesheet.png'
+        this.playerSprite.src = './images/p1_spritesheet.png';
     }
 
     //get character edges
@@ -55,7 +55,6 @@ class Character {
 
     draw() {
         this.ctx.fillStyle = "white";
-        // this.ctx.fillRect(this.x, this.y, this.width, this.height);
         this.ctx.drawImage(this.playerSprite, 67, 196, 66, 92, this.x, this.y, this.width, this.height);
     }
 }

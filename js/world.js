@@ -1,7 +1,7 @@
 class World {
     constructor() {
         this.columns = 64;
-        this.rows = 20;
+        this.rows = 22;
         this.tileSize = 70;
         this.mapHeight = this.rows * this.tileSize;
         this.mapWidth = this.columns * this.tileSize;
@@ -10,7 +10,9 @@ class World {
         this.map1 += "................................................................";
         this.map1 += "................................................................";
         this.map1 += "................................................................";
+        this.map1 += ".......c........................................................";
         this.map1 += "................................................................";
+        this.map1 += ".......g........................................................";
         this.map1 += "ggggggggggg.....ggggggg.ggggggggggg.............................";
         this.map1 += "..........g...........g.g.......................................";
         this.map1 += "..........ggggggggg........gggg...............ggggggg...........";
@@ -30,6 +32,11 @@ class World {
 
     getTile(playerX, playerY){
         return this.map1[Math.floor(playerY / this.tileSize) * this.columns + Math.floor(playerX / this.tileSize)];
+    }
+
+    setTile(playerX, playerY, newTile){
+        let index = Math.floor(playerY / this.tileSize) * this.columns + Math.floor(playerX / this.tileSize);
+        this.map1 = this.map1.substr(0, index) + newTile + this.map1.substr(index + 1);
     }
 
 
