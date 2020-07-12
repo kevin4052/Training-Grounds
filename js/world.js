@@ -1,42 +1,66 @@
 class World {
     constructor() {
-        this.columns = 64;
+        this.columns = 40;
         this.rows = 22;
         this.tileSize = 70;
         this.mapHeight = this.rows * this.tileSize;
         this.mapWidth = this.columns * this.tileSize;
         this.map1 = "";
-        this.map1 += "................................................................";
-        this.map1 += "................................................................";
-        this.map1 += "................................................................";
-        this.map1 += "................................................................";
-        this.map1 += ".......c........................................................";
-        this.map1 += "................................................................";
-        this.map1 += ".......g........................................................";
-        this.map1 += "ggggggggggg.....ggggggg.ggggggggggg.............................";
-        this.map1 += "..........g...........g.g.......................................";
-        this.map1 += "..........ggggggggg........gggg...............ggggggg...........";
-        this.map1 += "..................g.......ggggg.................................";
-        this.map1 += "..................g.......ggggg.................................";
-        this.map1 += "..................gggggggggggggg.........gggggggggggg...........";
-        this.map1 += "................................................................";
-        this.map1 += "................................................................";
-        this.map1 += "................................................................";
-        this.map1 += "................................................................";
-        this.map1 += "................................................................";
-        this.map1 += "........................ggggggg.................................";
-        this.map1 += "........................ggggggg.................................";
-        this.map1 += "........................ggggggg.................................";
-        this.map1 += "................................................................";
+        this.map1 += "g.gggggggggggggggggggggggggggggggggggggg";
+        this.map1 += "g.................g....................g";
+        this.map1 += "g.................g....................g";
+        this.map1 += "ggggg.............g....................g";
+        this.map1 += "g.................g....................g";
+        this.map1 += "g......c..........g.......ccccc........g";
+        this.map1 += "g.................g....................g";
+        this.map1 += "ggggggggggg.......2..gg.ggggggggggg....g";
+        this.map1 += "g.........g.......2...g.g..............g";
+        this.map1 += "g.........ggggggggg.....ggggggg........g";
+        this.map1 += "g.................g....................g";
+        this.map1 += "g.................gg...................g";
+        this.map1 += "g.................gggggggggggggg.......g";
+        this.map1 += "g...............................g......g";
+        this.map1 += "g................................g.....g";
+        this.map1 += "g.................................g....g";
+        this.map1 += "g..................................g...g";
+        this.map1 += "g...cccccccccccccccc................gg.g";
+        this.map1 += "g...cccccccccccccccc....ggggggg.......gg";
+        this.map1 += "g...cccccccccccccccc....gggggggg.......g";
+        this.map1 += "g.......................ggggggggg......g";
+        this.map1 += "gggggggggggggggggggggggggggggggggggggggg";
+
+        this.map2 = "";
+        this.map2 += "........................................";
+        this.map2 += "........................................";
+        this.map2 += "........................................";
+        this.map2 += "........................................";
+        this.map2 += ".......ccccc............................";
+        this.map2 += ".......ccccc..............ccccc.........";
+        this.map2 += "........................................";
+        this.map2 += "ggggggggggg..........gg.ggggggggggg.....";
+        this.map2 += "..........g...........g.g...............";
+        this.map2 += "..........ggg..gggg.....ggggggg.........";
+        this.map2 += "...............g..g.....................";
+        this.map2 += "...............g..gg....................";
+        this.map2 += "..........gggggg..gggggggggggggg........";
+        this.map2 += "................................g.......";
+        this.map2 += "................................g.......";
+        this.map2 += "g...gggg........................g......g";
+        this.map2 += "g...............................g......g";
+        this.map2 += "g...cccccccccccccccc...................g";
+        this.map2 += "g...cccccccccccccccc...gggggggg........g";
+        this.map2 += "g2..cccccccccccccccc..gcgggggggg.......g";
+        this.map2 += "g2...................ggcggggggggg......g";
+        this.map2 += "gggggggggggggggggggggggggggggggggggggggg";
     }
 
-    getTile(playerX, playerY){
-        return this.map1[Math.floor(playerY / this.tileSize) * this.columns + Math.floor(playerX / this.tileSize)];
+    getTile(map, playerX, playerY){
+        return this[map][Math.floor(playerY / this.tileSize) * this.columns + Math.floor(playerX / this.tileSize)];
     }
 
-    setTile(playerX, playerY, newTile){
+    setTile(map, playerX, playerY, newTile){
         let index = Math.floor(playerY / this.tileSize) * this.columns + Math.floor(playerX / this.tileSize);
-        this.map1 = this.map1.substr(0, index) + newTile + this.map1.substr(index + 1);
+        this[map] = this[map].substr(0, index) + newTile + this[map].substr(index + 1);
     }
 
 

@@ -12,8 +12,8 @@ class Character {
         this.oldY;
         this.xVel = 0;
         this.yVel = 0;
-        this.moveSpeed = 15;
-        this.gravity = 2;
+        this.moveSpeed = 12;
+        this.gravity = 1.5;
         this.friction = 0.75;
         this.jumping = true;
         this.onGround = false;
@@ -22,6 +22,7 @@ class Character {
         this.moveUp = false;
         this.playerSprite = new Image();
         this.playerSprite.src = './images/p1_spritesheet.png';
+        // this.playerSprite.src = './images/megaman_spriteSheet.png';
     }
 
     //get character edges
@@ -54,7 +55,7 @@ class Character {
 
 
     draw() {
-        this.ctx.fillStyle = "white";
         this.ctx.drawImage(this.playerSprite, 67, 196, 66, 92, this.x, this.y, this.width, this.height);
+        // this.ctx.drawImage(this.playerSprite, 0, 0, 22, 25, this.x, this.y, this.width, this.height);
     }
 }

@@ -3,13 +3,15 @@ const ctx = canvas.getContext('2d');
 
 const world = new World();
 const game = new Game(ctx, canvas, world);
-canvas.width = world.columns * world.tileSize;
-canvas.height = world.rows * world.tileSize;
 
-// game.generateWorld();
+// canvas.width = (world.columns * 1) * world.tileSize;
+// canvas.height = (world.rows * 1) * world.tileSize;
+
+ canvas.width = 40 * world.tileSize;
+ canvas.height = 22 * world.tileSize;
+
 
 function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.init();
     window.requestAnimationFrame(gameLoop);
 }
@@ -22,6 +24,11 @@ document.addEventListener('keydown', event => {
 document.addEventListener('keyup', event => {
     event.preventDefault();
     game.controller.keyUp(event);
+});
+
+document.addEventListener('keypress', event => {
+    event.preventDefault();
+    game.controller.keyPress(event);
 });
 
 gameLoop();
