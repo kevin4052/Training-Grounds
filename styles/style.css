@@ -1,5 +1,6 @@
 body {
     background-color: #2c2b2b;
+    /* background-color: black; */
 }
 
 #game-canvas {
@@ -8,8 +9,6 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid black;
-    width: 50vw;
-    /* width: 70vw; */
-    /* background-color: rgb(0, 0, 0); */
-    /* background-image: url(../images/104598-space-pixel_art-horizon-stars.jpg); */
+    width: 60vw;
+    background-image: url(../images/Big\ Room.bmp);
 }

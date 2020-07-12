@@ -21,8 +21,15 @@ class Character {
         this.moveLeft = false;
         this.moveUp = false;
         this.playerSprite = new Image();
-        this.playerSprite.src = './images/p1_spritesheet.png';
-        // this.playerSprite.src = './images/megaman_spriteSheet.png';
+        // this.playerSprite.src = '../images/p1_walk.png';
+        this.playerSprite.src = '../images/megaman_spriteSheet.png';
+        this.spriteFrames = {
+            'walk': [[3, 0], [4,0], [5,0]],
+            'jump': [[6, 0]],
+            'standing': [[0, 0], [1, 0]],
+            'falling': [[0, 2]]
+        };
+        this.animation = new Animation(this.spriteFrames.standing, 30);
     }
 
     //get character edges
@@ -55,7 +62,6 @@ class Character {
 
 
     draw() {
-        this.ctx.drawImage(this.playerSprite, 67, 196, 66, 92, this.x, this.y, this.width, this.height);
-        // this.ctx.drawImage(this.playerSprite, 0, 0, 22, 25, this.x, this.y, this.width, this.height);
+        this.ctx.drawImage(this.playerSprite, this.animation.frame[0] * 22, this.animation.frame[1] * 25, 22, 26, this.x, this.y, this.width, this.height);
     }
 }

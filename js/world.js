@@ -6,14 +6,14 @@ class World {
         this.mapHeight = this.rows * this.tileSize;
         this.mapWidth = this.columns * this.tileSize;
         this.map1 = "";
-        this.map1 += "g.gggggggggggggggggggggggggggggggggggggg";
+        this.map1 += "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
+        this.map1 += "g..ggggggggggggggggggggggggggggggggggggg";
         this.map1 += "g.................g....................g";
         this.map1 += "g.................g....................g";
-        this.map1 += "ggggg.............g....................g";
-        this.map1 += "g.................g....................g";
-        this.map1 += "g......c..........g.......ccccc........g";
-        this.map1 += "g.................g....................g";
-        this.map1 += "ggggggggggg.......2..gg.ggggggggggg....g";
+        this.map1 += "gggg..............g....................g";
+        this.map1 += "g......c..................ccccc........g";
+        this.map1 += "g......................................g";
+        this.map1 += "ggggggggggg.......2....gggggggggggg....g";
         this.map1 += "g.........g.......2...g.g..............g";
         this.map1 += "g.........ggggggggg.....ggggggg........g";
         this.map1 += "g.................g....................g";
@@ -24,9 +24,9 @@ class World {
         this.map1 += "g.................................g....g";
         this.map1 += "g..................................g...g";
         this.map1 += "g...cccccccccccccccc................gg.g";
-        this.map1 += "g...cccccccccccccccc....ggggggg.......gg";
-        this.map1 += "g...cccccccccccccccc....gggggggg.......g";
-        this.map1 += "g.......................ggggggggg......g";
+        this.map1 += "g...cccccccccccccccc..................gg";
+        this.map1 += "g...cccccccccccccccc..................1g";
+        this.map1 += "g.....................................1g";
         this.map1 += "gggggggggggggggggggggggggggggggggggggggg";
 
         this.map2 = "";
@@ -52,6 +52,54 @@ class World {
         this.map2 += "g2..cccccccccccccccc..gcgggggggg.......g";
         this.map2 += "g2...................ggcggggggggg......g";
         this.map2 += "gggggggggggggggggggggggggggggggggggggggg";
+
+        this.map3 = "";
+        this.map3 += "gggggggggggggggggggggggggggggggggggggggg";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g2.....................................g";
+        this.map3 += "g2.....................................g";
+        this.map3 += "gggggggggggggggggggggggggggggggggggggggg";
+
+        this.map4 = "";
+        this.map4 += "gggggggggggggggggggggggggggggggggggggggg";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g......................................g";
+        this.map4 += "g2.....................................g";
+        this.map4 += "g2.....................................g";
+        this.map4 += "gggggggggggggggggggggggggggggggggggggggg";
     }
 
     getTile(map, playerX, playerY){

@@ -5,15 +5,17 @@ class Animation{
         this.frame = 0;
         this.frameIndex = 0;
         this.frameSet = frameSet;
+        this.frame = this.frameSet[this.frameIndex];
     }
 
-    changeFrameSet(frameSet, delay, frameIndex){
+    changeFrameSet(frameSet, delay){
         if (frameSet != this.frameSet){
             this.count = 0;
             this.delay = delay;
             this.frameIndex = 0;
             this.frameSet = frameSet;
             this.frame = this.frameSet[this.frameIndex];
+            console.log('frame change');
         }
     }
 
@@ -23,6 +25,7 @@ class Animation{
         if(this.count >= this.delay){
             this.count = 0;
             this.frameIndex = (this.frameIndex === this.frameSet.length - 1) ? 0 : this.frameIndex +1;
+            this.frame = this.frameSet[this.frameIndex];
         }
     }
 }

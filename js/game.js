@@ -15,9 +15,11 @@ class Game {
         this.cameraOffsetX = 0;
         this.cameraOffsetY = 0;
         this.coinScore = 0;
+        this.background = new Image();
         this.ground = new Image();
         this.coin = new Image();
         this.door = new Image();
+        this.background.src = './images/Big Room.bmp'
         this.ground.src = './images/boxEmpty.png';
         this.coin.src = './images/coinGold.png'
         this.door.src = './images/door_closedMid.png'
@@ -44,10 +46,13 @@ class Game {
             for (let x = -1; x < screenTilesX + 1; x++){
                 this.tileType = this.world.getTile(this.currentMap,(x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize);
                 switch (this.tileType){
-                    case '.':
-                        // this.ctx.fillStyle = "black";
-                        // this.ctx.fillRect((x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
+                    case 'B':
+                        this.ctx.fillStyle = "black";
+                        this.ctx.fillRect((x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         break;
+                    case '.':
+                        // this.ctx.drawImage(this.background, 0, 0, 70, 70, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
+                       break;
                     case 'g':
                         this.ctx.drawImage(this.ground, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         break;
@@ -55,6 +60,7 @@ class Game {
                         this.ctx.drawImage(this.coin, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         break;
                     case '2':
+                    case "1":
                         this.ctx.drawImage(this.door, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         break;
                 }
@@ -69,20 +75,15 @@ class Game {
     init() {
 
         this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
-        // this.ctx.save();
-        this.moveCamera();
         this.drawGameScreen();
 
         this.ctx.fillStyle = "white";
-        this.ctx.font = '70px Verdana';
-        this.ctx.fillText(`Coins: ${this.coinScore}`, 10, 50);
-
+        this.ctx.font = '50px Verdana';
+        this.ctx.fillText(`Coins: ${this.coinScore}`, 70 * 3, 50);
+        
+        this.player.animation.update();
         this.update();
         this.player.draw();
-
-        
-
-        // this.ctx.restore();
 
         this.doors();
         this.coinPickup();
@@ -92,8 +93,8 @@ class Game {
 
     moveCamera(){
         //canvas offset to player
-        let canvasOffestX = 0//this.player.x - this.cameraOffsetX;
-        let canvasOffestY = 0//this.player.y - this.cameraOffsetY;
+        let canvasOffestX = 0;
+        let canvasOffestY = 0;
 
         if(this.player.xVel > 0){
             this.ctx.translate(canvasOffestX, 0);
@@ -112,17 +113,29 @@ class Game {
     update() {
         //Left and Right movement
         if (this.controller.left) {
+            this.player.animation.changeFrameSet(this.player.spriteFrames.walk, 5);
             this.player.xVel = this.player.moveSpeed * -1;
         }
         if (this.controller.right) {
+            this.player.animation.changeFrameSet(this.player.spriteFrames.walk, 5);
             this.player.xVel = this.player.moveSpeed;
         }
 
         //Jump movement;               
         if (this.controller.up && !this.player.jumping) {
+            this.player.animation.changeFrameSet(this.player.spriteFrames.jump, 10);
             this.player.yVel -= this.player.moveSpeed * 2.2;            
             this.player.jumping = true;
         }
+
+        if (this.player.xVel < 1 && this.player.xVel > -1) {
+            this.player.xVel = 0;
+            if(this.player.xVel === 0 && this.player.yVel === 0) this.player.animation.changeFrameSet(this.player.spriteFrames.standing, 30);
+        }
+
+        // if (this.player.xVel < 0){
+        //     this.ctx.scale(-1, 1);
+        // }
 
         this.player.yVel += this.player.gravity;
         this.player.xVel *= this.player.friction;
@@ -135,29 +148,27 @@ class Game {
 
         this.cameraPosX = this.player.x;
         this.cameraPosY = this.player.y;
-
-        //canvas boundaries
-        if (this.player.getRight() > this.canvas.width) {
-            this.player.setRight(this.canvas.width);
-        }
-        if (this.player.x < 0) {
-            this.player.x = 0;
-        }
     }
 
     doors(){
-        if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === '2' && this.controller.down) {
+        //door #1
+        if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === '1' && this.controller.down ||
+        this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom()) === '1' && this.controller.down ||
+        this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === '1' && this.controller.down ||
+        this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom()) === '1' && this.controller.down) {
+            this.currentMap = 'map1';
+            this.player.x = 72;
+            this.player.y = 397 - 70;
+        }
+
+        //door #2
+        if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === '2' && this.controller.down ||
+        this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom()) === '2' && this.controller.down ||
+        this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === '2' && this.controller.down ||
+        this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom()) === '2' && this.controller.down) {
             this.currentMap === 'map1' ? this.currentMap = 'map2' : this.currentMap = 'map1';
         }
-        if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom()) === '2' && this.controller.down) {
-            this.currentMap === 'map1' ? this.currentMap = 'map2' : this.currentMap = 'map1';
-        }
-        if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === '2' && this.controller.down) {
-            this.currentMap === 'map1' ? this.currentMap = 'map2' : this.currentMap = 'map1';
-        }
-        if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom()) === '2' && this.controller.down) {
-            this.currentMap === 'map1' ? this.currentMap = 'map2' : this.currentMap = 'map1';
-        }
+
     }
 
     coinPickup(){
