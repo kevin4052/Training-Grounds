@@ -12,7 +12,7 @@ class Character {
         this.oldY;
         this.xVel = 0;
         this.yVel = 0;
-        this.moveSpeed = 20;
+        this.moveSpeed = 15;
         this.gravity = 1.5;
         this.friction = 0.75;
         this.jumping = true;
