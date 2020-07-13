@@ -24,10 +24,10 @@ class Character {
         // this.playerSprite.src = '../images/p1_walk.png';
         this.playerSprite.src = '../images/megaman_spriteSheet.png';
         this.spriteFrames = {
-            'walk': [[3, 0], [4,0], [5,0]],
-            'jump': [[6, 0]],
-            'standing': [[0, 0], [1, 0]],
-            'falling': [[0, 2]]
+            'walk': {'value':[[0, 0], [1, 0], [2, 0]], 'x': 65, 'y': 0, 'w': 22, 'h':26},
+            'jump': {'value':[[0, 0]], 'x': 129, 'y': 0, 'w': 27, 'h':31},
+            'standing': {'value':[[0, 0], [1, 0]], 'x': 0, 'y': 0, 'w': 22, 'h':26},
+            'falling': {'value':[[0, 0]], 'x': 129, 'y': 0, 'w': 27, 'h':31}
         };
         this.animation = new Animation(this.spriteFrames.standing, 30);
     }
@@ -62,6 +62,6 @@ class Character {
 
 
     draw() {
-        this.ctx.drawImage(this.playerSprite, this.animation.frame[0] * 22, this.animation.frame[1] * 25, 22, 26, this.x, this.y, this.width, this.height);
+        this.ctx.drawImage(this.playerSprite, this.animation.sprite.x + this.animation.frame[0] * 22, this.animation.sprite.y + this.animation.frame[1] * 26, this.animation.sprite.w, this.animation.sprite.h, this.x, this.y, this.width, this.height);
     }
 }

@@ -1,19 +1,21 @@
 class Animation{
-    constructor(frameSet, delay){
+    constructor(sprite, delay){
         this.count = 0;
         this.delay = delay;
         this.frame = 0;
         this.frameIndex = 0;
-        this.frameSet = frameSet;
+        this.sprite = sprite
+        this.frameSet = sprite.value;        
         this.frame = this.frameSet[this.frameIndex];
     }
 
-    changeFrameSet(frameSet, delay){
-        if (frameSet != this.frameSet){
+    changeFrameSet(sprite, delay){
+        if (sprite != this.sprite){
             this.count = 0;
             this.delay = delay;
             this.frameIndex = 0;
-            this.frameSet = frameSet;
+            this.sprite = sprite
+            this.frameSet = sprite.value;        
             this.frame = this.frameSet[this.frameIndex];
             console.log('frame change');
         }

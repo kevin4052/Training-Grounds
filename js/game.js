@@ -4,7 +4,7 @@ class Game {
         this.canvas = canvas;
         this.world = world;
         this.controller = new Controller();
-        this.player = new Character(this.canvas, this.ctx, 72, 0, 66, 92);
+        this.player = new Character(this.canvas, this.ctx, 72, 0, 66, 78);
         this.tileX;
         this.tileY;
         this.tileType;
@@ -132,6 +132,8 @@ class Game {
             this.player.xVel = 0;
             if(this.player.xVel === 0 && this.player.yVel === 0) this.player.animation.changeFrameSet(this.player.spriteFrames.standing, 30);
         }
+
+        if (this.player.yVel > 5) this.player.animation.changeFrameSet(this.player.spriteFrames.falling, 30);
 
         // if (this.player.xVel < 0){
         //     this.ctx.scale(-1, 1);
