@@ -17,7 +17,7 @@ class Animation{
             this.sprite = sprite
             this.frameSet = sprite.value;        
             this.frame = this.frameSet[this.frameIndex];
-            console.log('frame change');
+            // console.log('frame change');
         }
     }
 

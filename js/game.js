@@ -24,6 +24,7 @@ class Game {
         this.coin.src = './images/coinGold.png'
         this.door.src = './images/door_closedMid.png'
         this.currentMap = 'map1';
+        this.direction = 'right';
     }
 
     drawGameScreen(){
@@ -83,7 +84,7 @@ class Game {
         
         this.player.animation.update();
         this.update();
-        this.player.draw();
+        this.player.draw(this.direction);
 
         this.doors();
         this.coinPickup();
@@ -113,27 +114,44 @@ class Game {
     update() {
         //Left and Right movement
         if (this.controller.left) {
-            this.player.animation.changeFrameSet(this.player.spriteFrames.walk, 5);
+            this.direction = 'left';
+            this.player.animation.changeFrameSet(this.player.spriteFramesReverse.walk, 5);
             this.player.xVel = this.player.moveSpeed * -1;
         }
         if (this.controller.right) {
+            this.direction = 'right';
             this.player.animation.changeFrameSet(this.player.spriteFrames.walk, 5);
             this.player.xVel = this.player.moveSpeed;
         }
 
         //Jump movement;               
         if (this.controller.up && !this.player.jumping) {
-            this.player.animation.changeFrameSet(this.player.spriteFrames.jump, 10);
+            if(this.direction === 'right'){
+                this.player.animation.changeFrameSet(this.player.spriteFrames.jump, 10);
+            } else {
+                this.player.animation.changeFrameSet(this.player.spriteFramesReverse.jump, 10);
+            }
             this.player.yVel -= this.player.moveSpeed * 2.2;            
             this.player.jumping = true;
         }
 
         if (this.player.xVel < 1 && this.player.xVel > -1) {
             this.player.xVel = 0;
-            if(this.player.xVel === 0 && this.player.yVel === 0) this.player.animation.changeFrameSet(this.player.spriteFrames.standing, 30);
+            if(this.direction === 'right'){
+                if(this.player.xVel === 0 && this.player.yVel === 0) this.player.animation.changeFrameSet(this.player.spriteFrames.standing, 30);
+            } else {
+                if(this.player.xVel === 0 && this.player.yVel === 0) this.player.animation.changeFrameSet(this.player.spriteFramesReverse.standing, 30);
+            }
+            
         }
 
-        if (this.player.yVel > 5) this.player.animation.changeFrameSet(this.player.spriteFrames.falling, 30);
+        if (this.player.yVel > 5) {
+            if(this.direction === 'right'){
+            this.player.animation.changeFrameSet(this.player.spriteFrames.falling, 30);
+            } else {
+                this.player.animation.changeFrameSet(this.player.spriteFramesReverse.falling, 30);
+            }
+        }
 
         // if (this.player.xVel < 0){
         //     this.ctx.scale(-1, 1);

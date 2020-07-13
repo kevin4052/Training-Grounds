@@ -21,13 +21,20 @@ class Character {
         this.moveLeft = false;
         this.moveUp = false;
         this.playerSprite = new Image();
-        // this.playerSprite.src = '../images/p1_walk.png';
-        this.playerSprite.src = '../images/megaman_spriteSheet.png';
+        this.playerSpriteReverse = new Image();
+        this.playerSprite.src = './images/megaman_spriteSheet.png';
+        this.playerSpriteReverse.src = './images/megaman_spriteSheet_reverse.png';
         this.spriteFrames = {
-            'walk': {'value':[[0, 0], [1, 0], [2, 0]], 'x': 65, 'y': 0, 'w': 22, 'h':26},
+            'walk': {'value':[[0, 0], [1, 0], [2, 0], [3, 0]], 'x': 44, 'y': 0, 'w': 22, 'h':26},
             'jump': {'value':[[0, 0]], 'x': 129, 'y': 0, 'w': 27, 'h':31},
             'standing': {'value':[[0, 0], [1, 0]], 'x': 0, 'y': 0, 'w': 22, 'h':26},
             'falling': {'value':[[0, 0]], 'x': 129, 'y': 0, 'w': 27, 'h':31}
+        };
+        this.spriteFramesReverse = {
+            'walk': {'value':[[0, 0], [-1, 0], [-2, 0], [-3, 0]], 'x': 205, 'y': 0, 'w': 22, 'h':26},
+            'jump': {'value':[[0, 0]], 'x': 113, 'y': 0, 'w': 27, 'h':31},
+            'standing': {'value':[[0, 0], [-1, 0]], 'x': 247, 'y': 0, 'w': 22, 'h':26},
+            'falling': {'value':[[0, 0]], 'x': 113, 'y': 0, 'w': 27, 'h':31}
         };
         this.animation = new Animation(this.spriteFrames.standing, 30);
     }
@@ -61,7 +68,11 @@ class Character {
     }
 
 
-    draw() {
-        this.ctx.drawImage(this.playerSprite, this.animation.sprite.x + this.animation.frame[0] * 22, this.animation.sprite.y + this.animation.frame[1] * 26, this.animation.sprite.w, this.animation.sprite.h, this.x, this.y, this.width, this.height);
+    draw(direction) {
+        if(direction === 'right'){
+            this.ctx.drawImage(this.playerSprite, this.animation.sprite.x + this.animation.frame[0] * 22, this.animation.sprite.y + this.animation.frame[1] * 26, this.animation.sprite.w, this.animation.sprite.h, this.x, this.y, this.width, this.height);
+        } else if (direction === 'left'){
+            this.ctx.drawImage(this.playerSpriteReverse, this.animation.sprite.x + this.animation.frame[0] * 22, this.animation.sprite.y + this.animation.frame[1] * 26, this.animation.sprite.w, this.animation.sprite.h, this.x, this.y, this.width, this.height);
+        }
     }
 }
