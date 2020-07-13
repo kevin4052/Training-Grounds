@@ -14,14 +14,13 @@ class Game {
         this.cameraPosY = 0;
         this.cameraOffsetX = 0;
         this.cameraOffsetY = 0;
-        this.coinScore = 0;
         this.background = new Image();
         this.ground = new Image();
         this.coin = new Image();
         this.door = new Image();
         this.background.src = './images/Big Room.bmp'
-        this.ground.src = './images/boxEmpty.png';
-        this.coin.src = './images/coinGold.png'
+        this.ground.src = './images/MegaManSheet5.gif';
+        this.coin.src = './images/MegaManSheet5.gif'
         this.door.src = './images/door_closedMid.png'
         this.currentMap = 'map1';
         this.direction = 'right';
@@ -60,10 +59,10 @@ class Game {
                         // this.ctx.drawImage(this.background, 0, 0, 70, 70, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                        break;
                     case 'g':
-                        this.ctx.drawImage(this.ground, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
+                        this.ctx.drawImage(this.ground, 73, 445, 34, 34, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         break;
                     case 'c':
-                        this.ctx.drawImage(this.coin, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
+                        this.ctx.drawImage(this.coin, 134, 598, 17, 13, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         break;
                     case '2':
                     case "1":
@@ -85,7 +84,7 @@ class Game {
 
         this.ctx.fillStyle = "white";
         this.ctx.font = '50px Verdana';
-        this.ctx.fillText(`Coins: ${this.coinScore}   HP: ${this.player.hp}`, 70 * 3, 50);
+        this.ctx.fillText(`HP: ${this.player.hp}`, 70 * 3, 50);
         
         this.player.animation.update();
         this.update();
@@ -100,7 +99,7 @@ class Game {
         })
 
         this.doors();
-        this.coinPickup();
+        this.healthPickup();
         this.playerHit();
         this.checkCollision();
         // console.log(this.player.y);
@@ -168,7 +167,7 @@ class Game {
         }
 
         if(this.controller.shoot){
-            this.bullets.push(new Bullet(this.player.x, this.player.y + this.player.height * 0.5, this.direction, 10))
+            this.bullets.push(new Bullet(this.player.x, this.player.y + this.player.height * 0.5, this.direction, 20))
             this.controller.shoot = false;
         }
 
@@ -208,22 +207,22 @@ class Game {
 
     }
 
-    coinPickup(){
+    healthPickup(){
         if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'c') {
             this.world.setTile(this.currentMap, this.player.getLeft(), this.player.getTop(), ".");
-            this.coinScore++;
+            this.player.hp += 5;
         }
         if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom()) === 'c') {
             this.world.setTile(this.currentMap, this.player.getLeft(), this.player.getBottom(), ".");
-            this.coinScore++;
+            this.player.hp += 5;
         }
         if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'c') {
             this.world.setTile(this.currentMap, this.player.getRight(), this.player.getTop(), ".");
-            this.coinScore++;
+            this.player.hp += 5;
         }
         if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom()) === 'c') {
             this.world.setTile(this.currentMap, this.player.getRight(), this.player.getBottom(), ".");
-            this.coinScore++;
+            this.player.hp += 5;
         }
     }
 
