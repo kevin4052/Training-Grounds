@@ -12,7 +12,7 @@ class Character {
         this.oldY;
         this.xVel = 0;
         this.yVel = 0;
-        this.moveSpeed = 12;
+        this.moveSpeed = 20;
         this.gravity = 1.5;
         this.friction = 0.75;
         this.jumping = true;
@@ -23,7 +23,7 @@ class Character {
         this.playerSprite = new Image();
         this.playerSpriteReverse = new Image();
         this.playerSprite.src = './images/megaman_spriteSheet.png';
-        this.playerSpriteReverse.src = './images/megaman_spriteSheet_reverse.png';
+        this.playerSpriteReverse.src = './images/megaman_sprite_Sheet_reverse.png';
         this.spriteFrames = {
             'walk': {'value':[[0, 0], [1, 0], [2, 0], [3, 0]], 'x': 44, 'y': 0, 'w': 22, 'h':26},
             'jump': {'value':[[0, 0]], 'x': 129, 'y': 0, 'w': 27, 'h':31},

@@ -20,7 +20,7 @@ class Controller {
             case 68:
                 this.right = true;
                 break;
-            case 16:
+            case 32:
                 this.shoot = true;
                 break;
                 case 40:
@@ -47,7 +47,7 @@ class Controller {
             case 83:
                 this.down = false;
                 break;
-            case 16:
+            case 32:
                 this.shoot = false;
                 break;
         }

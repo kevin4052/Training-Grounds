@@ -4,7 +4,7 @@ class Game {
         this.canvas = canvas;
         this.world = world;
         this.controller = new Controller();
-        this.player = new Character(this.canvas, this.ctx, 72, 0, 66, 78);
+        this.player = new Character(this.canvas, this.ctx, 72, 0, 100, 114);
         this.tileX;
         this.tileY;
         this.tileType;
@@ -25,6 +25,7 @@ class Game {
         this.door.src = './images/door_closedMid.png'
         this.currentMap = 'map1';
         this.direction = 'right';
+        this.bullets = [];
     }
 
     drawGameScreen(){
@@ -49,6 +50,10 @@ class Game {
                 switch (this.tileType){
                     case 'B':
                         this.ctx.fillStyle = "black";
+                        this.ctx.fillRect((x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
+                        break;
+                    case 'H':
+                        this.ctx.fillStyle = "red";
                         this.ctx.fillRect((x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         break;
                     case '.':
@@ -80,14 +85,23 @@ class Game {
 
         this.ctx.fillStyle = "white";
         this.ctx.font = '50px Verdana';
-        this.ctx.fillText(`Coins: ${this.coinScore}`, 70 * 3, 50);
+        this.ctx.fillText(`Coins: ${this.coinScore}   HP: ${this.player.hp}`, 70 * 3, 50);
         
         this.player.animation.update();
         this.update();
         this.player.draw(this.direction);
 
+        this.bullets.forEach((bullet, index) => {
+            bullet.update();
+            this.ctx.fillStyle = "yellow";
+            this.ctx.fillRect(bullet.x, bullet.y, 20, 20);
+            
+            if(bullet.x < -20 || bullet.x > this.canvas.width) this.bullets.splice(index, 1);
+        })
+
         this.doors();
         this.coinPickup();
+        this.playerHit();
         this.checkCollision();
         // console.log(this.player.y);
     }
@@ -127,11 +141,11 @@ class Game {
         //Jump movement;               
         if (this.controller.up && !this.player.jumping) {
             if(this.direction === 'right'){
-                this.player.animation.changeFrameSet(this.player.spriteFrames.jump, 10);
+                this.player.animation.changeFrameSet(this.player.spriteFrames.jump, 15);
             } else {
-                this.player.animation.changeFrameSet(this.player.spriteFramesReverse.jump, 10);
+                this.player.animation.changeFrameSet(this.player.spriteFramesReverse.jump, 15);
             }
-            this.player.yVel -= this.player.moveSpeed * 2.2;            
+            this.player.yVel -= this.player.moveSpeed * 1.7;            
             this.player.jumping = true;
         }
 
@@ -153,9 +167,10 @@ class Game {
             }
         }
 
-        // if (this.player.xVel < 0){
-        //     this.ctx.scale(-1, 1);
-        // }
+        if(this.controller.shoot){
+            this.bullets.push(new Bullet(this.player.x, this.player.y + this.player.height * 0.5, this.direction, 10))
+            this.controller.shoot = false;
+        }
 
         this.player.yVel += this.player.gravity;
         this.player.xVel *= this.player.friction;
@@ -179,6 +194,7 @@ class Game {
             this.currentMap = 'map1';
             this.player.x = 72;
             this.player.y = 397 - 70;
+            this.ctx.save();
         }
 
         //door #2
@@ -187,6 +203,7 @@ class Game {
         this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === '2' && this.controller.down ||
         this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom()) === '2' && this.controller.down) {
             this.currentMap === 'map1' ? this.currentMap = 'map2' : this.currentMap = 'map1';
+            this.ctx.save();
         }
 
     }
@@ -207,6 +224,24 @@ class Game {
         if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom()) === 'c') {
             this.world.setTile(this.currentMap, this.player.getRight(), this.player.getBottom(), ".");
             this.coinScore++;
+        }
+    }
+
+    playerHit(){
+        if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'H') {
+           this.player.hp -= 1;
+        }
+        if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom()) === 'H') {
+            this.player.hp -= 1;
+        }
+        if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'H') {
+            this.player.hp -= 1;
+        }
+        if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom()) === 'H') {
+            this.player.hp -= 1;
+        }
+        if(this.player.hp <= 0){
+            this.ctx.restore();
         }
     }
 

@@ -13,7 +13,7 @@ class World {
         this.map1 += "gggg..............g....................g";
         this.map1 += "g......c..................ccccc........g";
         this.map1 += "g......................................g";
-        this.map1 += "ggggggggggg.......2....gggggggggggg....g";
+        this.map1 += "ggggggggggg...H...2....gggggggggggg....g";
         this.map1 += "g.........g.......2...g.g..............g";
         this.map1 += "g.........ggggggggg.....ggggggg........g";
         this.map1 += "g.................g....................g";
@@ -26,7 +26,7 @@ class World {
         this.map1 += "g...cccccccccccccccc................gg.g";
         this.map1 += "g...cccccccccccccccc..................gg";
         this.map1 += "g...cccccccccccccccc..................1g";
-        this.map1 += "g.....................................1g";
+        this.map1 += "g.......................H.............1g";
         this.map1 += "gggggggggggggggggggggggggggggggggggggggg";
 
         this.map2 = "";
@@ -43,10 +43,10 @@ class World {
         this.map2 += "...............g..g.....................";
         this.map2 += "...............g..gg....................";
         this.map2 += "..........gggggg..gggggggggggggg........";
-        this.map2 += "................................g.......";
-        this.map2 += "................................g.......";
-        this.map2 += "g...gggg........................g......g";
-        this.map2 += "g...............................g......g";
+        this.map2 += "........................................";
+        this.map2 += "........................................";
+        this.map2 += "g...gggg...............................g";
+        this.map2 += "g......................................g";
         this.map2 += "g...cccccccccccccccc...................g";
         this.map2 += "g...cccccccccccccccc...gggggggg........g";
         this.map2 += "g2..cccccccccccccccc..gcgggggggg.......g";
