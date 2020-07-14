@@ -4,8 +4,8 @@ const ctx = canvas.getContext('2d');
 const world = new World();
 const game = new Game(ctx, canvas, world);
 
-canvas.width = 40 * world.tileSize;
-canvas.height = 22 * world.tileSize;
+canvas.width = world.columns * world.tileSize;
+canvas.height = world.rows * world.tileSize;
 
 let requestId = 0;
 

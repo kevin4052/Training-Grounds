@@ -72,33 +72,16 @@ class Character {
     }
 
     //get character edges
-    getRight() {
-        return this.x + this.width;
-    }
-    getLeft() {
-        return this.x;
-    }
-    getTop() {
-        return this.y;
-    }
-    getBottom() {
-        return this.y + this.height;
-    }
+    getRight() {return this.x + this.width;}
+    getLeft() {return this.x;}
+    getTop() {return this.y;}
+    getBottom() {return this.y + this.height;}
 
     //set character position
-    setRight(position) {
-        this.x = position - this.width;
-    }
-    setLeft(position) {
-        this.x = position;
-    }
-    setTop(position) {
-        this.y = position;
-    }
-    setBottom(position) {
-        this.y = position - this.height;
-    }
-
+    setRight(position) {this.x = position - this.width;}
+    setLeft(position) {this.x = position;}
+    setTop(position) {this.y = position;}
+    setBottom(position) {this.y = position - this.height;}
 
     draw(direction) {
         let spriteDirection;

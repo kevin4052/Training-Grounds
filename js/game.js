@@ -8,8 +8,8 @@ class Game {
         this.tileX;
         this.tileY;
         this.tileType;
-        this.viewPortWidth = 40 * 70;
-        this.viewPortHeight = 22 * 70; 
+        // this.viewPortWidth = 40 * 70;
+        // this.viewPortHeight = 22 * 70; 
         this.cameraPosX = 0;
         this.cameraPosY = 0;
         this.cameraOffsetX = 0;
@@ -40,27 +40,33 @@ class Game {
         this.bulletImg = new Image();
         this.bulletImg.src = './images/MegaManSheet5.gif';
         this.gameOver = false;
-        this.enemy = new Enemy(this.ctx, 70 * 20, 70 * 18 + 50, 100, 100);
-
+        this.enemies = {
+            'map1':[new Enemy(this.ctx, 70 * 25, 70 * 5 + 70, 100, 100, 'horizontal')],
+            'map2':[new Enemy(this.ctx, 70 * 16 + 35, 70 * 9, 100, 100, 'vertical')],
+            'map3':[new Enemy(this.ctx, 70 * 20, 70 * 18 + 70, 100, 100, 'horizontal'),
+                    new Enemy(this.ctx, 70 * 10, 70 * 7 + 50, 100, 100, 'vertical')],
+        }
         //game Audio
         this.blaster = new Audio("./sounds/05 - MegaBuster.wav");
+        this.healthCanister = new Audio("../sounds/24 - EnergyFill.wav");
+        this.playerDamage = new Audio("../sounds/07 - MegamanDamage.wav");
 
     }
 
     drawGameScreen(){
         //number of tiles to display to the game canvas      
-        let screenTilesX = this.viewPortWidth / this.world.tileSize;
-        let screenTilesY = this.viewPortHeight / this.world.tileSize;
+        let screenTilesX = this.canvas.width / this.world.tileSize;
+        let screenTilesY = this.canvas.height / this.world.tileSize;
 
         //offset camera to center the player
-        this.cameraOffsetX = Math.floor(this.cameraPosX / this.world.tileSize) - (screenTilesX - 2) / 2;
-        this.cameraOffsetY = Math.floor(this.cameraPosY / this.world.tileSize) - screenTilesY / 2;
+        // this.cameraOffsetX = Math.floor(this.cameraPosX / this.world.tileSize) - (screenTilesX - 2) / 2;
+        // this.cameraOffsetY = Math.floor(this.cameraPosY / this.world.tileSize) - screenTilesY / 2;
         
 
-        if(this.cameraOffsetX < 0) this.cameraOffsetX = 0;
-        if(this.cameraOffsetY < 0) this.cameraOffsetY = 0;
-        if(this.cameraOffsetX > this.world.columns - screenTilesX) this.cameraOffsetX = this.world.columns - screenTilesX;
-        if(this.cameraOffsetY > this.world.rows - screenTilesY) this.cameraOffsetY = this.world.rows - screenTilesY;
+        // if(this.cameraOffsetX < 0) this.cameraOffsetX = 0;
+        // if(this.cameraOffsetY < 0) this.cameraOffsetY = 0;
+        // if(this.cameraOffsetX > this.world.columns - screenTilesX) this.cameraOffsetX = this.world.columns - screenTilesX;
+        // if(this.cameraOffsetY > this.world.rows - screenTilesY) this.cameraOffsetY = this.world.rows - screenTilesY;
 
         //draws the visible map
         for (let y = 0; y < screenTilesY; y++){
@@ -110,15 +116,23 @@ class Game {
         this.player.animation.update();
         this.update();
         this.player.draw(this.direction);
-        this.enemy.draw();
+
+        this.enemies[this.currentMap].forEach(enemy => {
+            enemy.update();
+            enemy.draw();
+        })
 
         this.bullets.forEach((bullet, index) => {
             bullet.update();
-            this.ctx.drawImage(this.bulletImg, 250, 577, 9, 7, bullet.x, bullet.y, 41, 30);
-            
+            //check bullet collision with enemies
+            this.enemies[this.currentMap].forEach(enemy => {
+                enemy.checkBullet(bullet);
+            })
+            this.ctx.drawImage(this.bulletImg, 250, 577, 9, 7, bullet.x, bullet.y, bullet.width, bullet.height);            
             if(bullet.x < -20 || bullet.x > this.canvas.width) this.bullets.splice(index, 1);
         })
 
+        
         this.doors();
         this.healthPickup();
         this.playerHit();
@@ -128,6 +142,7 @@ class Game {
         }
         // console.log(this.player.y);
     }
+
 
     moveCamera(){
         //canvas offset to player
@@ -236,18 +251,22 @@ class Game {
         if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'c') {
             this.world.setTile(this.currentMap, this.player.getLeft(), this.player.getTop(), ".");
             this.player.hp += 5;
+            this.healthCanister.play();
         }
         if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5) === 'c') {
             this.world.setTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5, ".");
             this.player.hp += 5;
+            this.healthCanister.play();
         }
         if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'c') {
             this.world.setTile(this.currentMap, this.player.getRight(), this.player.getTop(), ".");
             this.player.hp += 5;
+            this.healthCanister.play();
         }
         if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'c') {
             this.world.setTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5, ".");
             this.player.hp += 5;
+            this.healthCanister.play();
         }
     }
 
@@ -257,6 +276,7 @@ class Game {
         this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'H' ||
         this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'H') {
            this.player.hp -= 1;
+           this.playerDamage.play();
         }        
     }
 
