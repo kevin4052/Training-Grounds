@@ -52,14 +52,4 @@ class Controller {
                 break;
         }
     }
-
-    keyPress(event){
-        switch (event.keyCode) {
-            case 40:
-            case 83:
-                this.down = true;
-                break;
-        }
-    }
-
 }

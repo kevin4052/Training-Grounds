@@ -26,8 +26,8 @@ class Character {
         this.playerSpriteReverse.src = './images/megaman_sprite_Sheet_reverse.png';
         this.spriteFrames = {
             'walk': {
-                'value':[[0, 0], [1, 0], [2, 0], [3, 0]], 
-                'x': 44, 'y': 0, 
+                'value':[[0, 0], [1, 0], [2, 0], [1, 0]], 
+                'x': 66, 'y': 0, 
                 'w': 22, 'h':26
             },
             'jump': {
@@ -48,8 +48,8 @@ class Character {
         };
         this.spriteFramesReverse = {
             'walk': {
-                'value':[[0, 0], [-1, 0], [-2, 0], [-3, 0]], 
-                'x': 205, 'y': 0, 
+                'value':[[0, 0], [-1, 0], [-2, 0], [-1, 0]], 
+                'x': 182, 'y': 0, 
                 'w': 22, 'h':26
             },
             'jump': {
@@ -101,10 +101,11 @@ class Character {
 
 
     draw(direction) {
-        if(direction === 'right'){
-            this.ctx.drawImage(this.playerSprite, this.animation.sprite.x + this.animation.frame[0] * this.animation.sprite.w, this.animation.sprite.y + this.animation.frame[1] * this.animation.sprite.h, this.animation.sprite.w, this.animation.sprite.h, this.x, this.y, this.width, this.height);
-        } else if (direction === 'left'){
-            this.ctx.drawImage(this.playerSpriteReverse, this.animation.sprite.x + this.animation.frame[0] * this.animation.sprite.w, this.animation.sprite.y + this.animation.frame[1] * this.animation.sprite.h, this.animation.sprite.w, this.animation.sprite.h, this.x, this.y, this.width, this.height);
-        }
+        let spriteDirection;
+
+        if(direction === 'right') spriteDirection = 'playerSprite';
+        else spriteDirection = 'playerSpriteReverse';
+
+        this.ctx.drawImage(this[spriteDirection], this.animation.sprite.x + this.animation.frame[0] * this.animation.sprite.w, this.animation.sprite.y + this.animation.frame[1] * this.animation.sprite.h, this.animation.sprite.w, this.animation.sprite.h, this.x, this.y, this.width, this.height);
     }
 }

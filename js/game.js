@@ -34,11 +34,13 @@ class Game {
 
         this.door = new Image();
         this.door.src = './images/door_closedMid.png'
-        this.currentMap = 'map1';
+        this.currentMap = 'map3';
         this.direction = 'right';
         this.bullets = [];
         this.bulletImg = new Image();
         this.bulletImg.src = './images/MegaManSheet5.gif';
+        this.gameOver = false;
+        this.enemy = new Enemy(this.ctx, 70 * 20, 70 * 18 + 50, 100, 100);
 
     }
 
@@ -105,11 +107,10 @@ class Game {
         this.player.animation.update();
         this.update();
         this.player.draw(this.direction);
+        this.enemy.draw();
 
         this.bullets.forEach((bullet, index) => {
             bullet.update();
-            // this.ctx.fillStyle = "yellow";
-            // this.ctx.fillRect(bullet.x, bullet.y, 20, 20);
             this.ctx.drawImage(this.bulletImg, 250, 577, 9, 7, bullet.x, bullet.y, 41, 30);
             
             if(bullet.x < -20 || bullet.x > this.canvas.width) this.bullets.splice(index, 1);
@@ -119,6 +120,9 @@ class Game {
         this.healthPickup();
         this.playerHit();
         this.checkCollision();
+        if(this.player.hp < 0){
+            this.gameOver = true;
+        }
         // console.log(this.player.y);
     }
 
@@ -244,47 +248,50 @@ class Game {
     }
 
     playerHit(){
-        if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'H') {
+        if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'H' ||
+        this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5) === 'H' ||
+        this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'H' ||
+        this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'H') {
            this.player.hp -= 1;
-        }
-        if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5) === 'H') {
-            this.player.hp -= 1;
-        }
-        if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'H') {
-            this.player.hp -= 1;
-        }
-        if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'H') {
-            this.player.hp -= 1;
-        }
-        if(this.player.hp <= 0){
-            this.ctx.restore();
-        }
+        }        
     }
 
     checkCollision(){
         //moving in the x direction
-        if(this.player.xVel < 0){ //moving left
-            if(this.world.getTile(this.currentMap, this.player.x, this.player.y) === 'g' || this.world.getTile(this.currentMap, this.player.x, this.player.y + this.player.height - 5) === 'g'){
+        // if(this.player.xVel < 0){ //moving left
+        //     if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'g' || 
+        //     this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5) === 'g'){
+        //         this.player.x = this.player.oldX;
+        //         this.player.xVel = 0;
+        //     }
+        // } else if (this.player.xVel >= 0){ //moving right
+        //     if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'g' ||
+        //      this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'g'){
+        //         this.player.x = this.player.oldX;
+        //         this.player.xVel = 0;
+        //     }
+        // }
+
+        if (this.player.xVel !== 0){ //left and right collision
+            if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'g' || 
+            this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5) === 'g' ||
+            this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'g' ||
+             this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'g'){
                 this.player.x = this.player.oldX;
                 this.player.xVel = 0;
-            }
-        } else if (this.player.xVel >= 0){ //moving right
-            if(this.world.getTile(this.currentMap, this.player.x + this.player.width, this.player.y) === 'g' || this.world.getTile(this.currentMap, this.player.x + this.player.width, this.player.y + this.player.height - 5) === 'g'){
-                this.player.x = this.player.oldX;
-                this.player.xVel = 0;
-            }
+             }
         }
 
         this.player.jumping = true;
 
         //moving up and down
-        if(this.player.yVel <= 0){
-            if(this.world.getTile(this.currentMap, this.player.x, this.player.y) === 'g' || this.world.getTile(this.currentMap, this.player.x + this.player.width - 5, this.player.y) === 'g'){
+        if(this.player.yVel <= 0){ //Top collision
+            if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'g' || this.world.getTile(this.currentMap, this.player.getRight() - 5, this.player.getTop()) === 'g'){
                 this.player.y = this.player.oldY;
                 this.player.yVel = 0;
             }
-        } else if (this.player.yVel > 0){
-            if(this.world.getTile(this.currentMap, this.player.x, this.player.y + this.player.height) === 'g' || this.world.getTile(this.currentMap, this.player.x + this.player.width - 5, this.player.y + this.player.height) === 'g'){
+        } else if (this.player.yVel > 0){ //bottom collision
+            if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom()) === 'g' || this.world.getTile(this.currentMap, this.player.getRight() - 5, this.player.getBottom()) === 'g'){
                 this.player.y = this.player.oldY;
                 this.player.yVel = 0;
                 this.player.jumping = false;

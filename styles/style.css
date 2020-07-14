@@ -1,5 +1,6 @@
 body {
     background-color: #2c2b2b;
+    font-family: 'Do Hyeon', sans-serif;
     /* background-color: black; */
 }
 
@@ -9,6 +10,6 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     /* border: 1px solid black; */
-    width: 60vw;
+    width: 1200px;
     background-image: url(../images/Big\ Room.bmp);
 }

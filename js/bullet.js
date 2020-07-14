@@ -4,6 +4,7 @@ class Bullet {
         this.y = y;
         this.direction = direction;
         this.xVel = xVel;
+        this.strength = 25;
     }
 
     update(){
