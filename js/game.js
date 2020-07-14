@@ -42,6 +42,9 @@ class Game {
         this.gameOver = false;
         this.enemy = new Enemy(this.ctx, 70 * 20, 70 * 18 + 50, 100, 100);
 
+        //game Audio
+        this.blaster = new Audio("./sounds/05 - MegaBuster.wav");
+
     }
 
     drawGameScreen(){
@@ -190,6 +193,7 @@ class Game {
         if(this.controller.shoot){
             this.bullets.push(new Bullet(this.player.x, this.player.y + this.player.height * 0.333, this.direction, 20))
             this.controller.shoot = false;
+            this.blaster.play();
         }
 
         this.player.yVel += this.player.gravity;

@@ -4,12 +4,18 @@ body {
     /* background-color: black; */
 }
 
+#title{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+
 #game-canvas {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     /* border: 1px solid black; */
-    width: 1200px;
+    width: 70vw;
     background-image: url(../images/Big\ Room.bmp);
 }
