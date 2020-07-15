@@ -117,33 +117,20 @@ class Game {
         this.update();
         this.player.draw(this.direction);
 
-        this.enemies[this.currentMap].forEach(enemy => {
-            enemy.update();
-            enemy.draw();
-        })
-
-        // for(let j = 0; j < this.enemies.length; j++){
-        //     for (let i = 0; i < this.bullets.length; i++){
-        //         this.bullets[i].update();
-        //         this.bullets[i].draw();
-        //         this.enemies[j].update();
-        //         this.enemies[j].draw();
-        //         if (this.enemies[j].hp <= 0) {this.enemies.splice(J, 1)}
-        //         if(this.bullets[i].x < -20 || this.bullets[i].x > this.canvas.width) this.bullets.splice(i, 1);
-        //     }
-        // }
-
-        this.bullets.forEach((bullet, index) => {
-            bullet.update();
-            //check bullet collision with enemies
-            this.enemies[this.currentMap].forEach((enemy, index) => {
-                enemy.checkBullet(bullet);
-                // if (enemy.hp <= 0) {this.enemies.splice(index, 1)}
-            })
-            bullet.draw();
-            if(bullet.x < -20 || bullet.x > this.canvas.width) this.bullets.splice(index, 1);
-        })
-
+        for(let j = 0; j < this.enemies[this.currentMap].length; j++){
+            this.enemies[this.currentMap][j].update();
+            this.enemies[this.currentMap][j].draw();
+            for (let i = 0; i < this.bullets.length; i++){
+                this.bullets[i].update();
+                this.bullets[i].draw();
+                this.enemies[this.currentMap][j].checkBullet(this.bullets[i])
+                if (this.enemies[this.currentMap][j].hp <= 0) {
+                    this.enemies[this.currentMap].splice(j, 1);
+                    // this.bullets.splice(i, 1);
+                }
+                if(this.bullets[i].x < -20 || this.bullets[i].x > this.canvas.width) this.bullets.splice(i, 1);
+            }
+        }
         
         this.doors();
         this.healthPickup();
