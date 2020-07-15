@@ -122,13 +122,25 @@ class Game {
             enemy.draw();
         })
 
+        // for(let j = 0; j < this.enemies.length; j++){
+        //     for (let i = 0; i < this.bullets.length; i++){
+        //         this.bullets[i].update();
+        //         this.bullets[i].draw();
+        //         this.enemies[j].update();
+        //         this.enemies[j].draw();
+        //         if (this.enemies[j].hp <= 0) {this.enemies.splice(J, 1)}
+        //         if(this.bullets[i].x < -20 || this.bullets[i].x > this.canvas.width) this.bullets.splice(i, 1);
+        //     }
+        // }
+
         this.bullets.forEach((bullet, index) => {
             bullet.update();
             //check bullet collision with enemies
-            this.enemies[this.currentMap].forEach(enemy => {
+            this.enemies[this.currentMap].forEach((enemy, index) => {
                 enemy.checkBullet(bullet);
+                // if (enemy.hp <= 0) {this.enemies.splice(index, 1)}
             })
-            this.ctx.drawImage(this.bulletImg, 250, 577, 9, 7, bullet.x, bullet.y, bullet.width, bullet.height);            
+            bullet.draw();
             if(bullet.x < -20 || bullet.x > this.canvas.width) this.bullets.splice(index, 1);
         })
 
@@ -143,25 +155,25 @@ class Game {
         // console.log(this.player.y);
     }
 
+    // feacture to add later
+    // moveCamera(){
+    //     //canvas offset to player
+    //     let canvasOffestX = 0;
+    //     let canvasOffestY = 0;
 
-    moveCamera(){
-        //canvas offset to player
-        let canvasOffestX = 0;
-        let canvasOffestY = 0;
+    //     if(this.player.xVel > 0){
+    //         this.ctx.translate(canvasOffestX, 0);
+    //     } else if (this.player.xVel < 0){
+    //         this.ctx.translate(-canvasOffestX, 0);
+    //     }
 
-        if(this.player.xVel > 0){
-            this.ctx.translate(canvasOffestX, 0);
-        } else if (this.player.xVel < 0){
-            this.ctx.translate(-canvasOffestX, 0);
-        }
-
-        if(this.player.yVel > 0){
-            this.ctx.translate(0, canvasOffestY);
-        } else if (this.player.yVel < 0){
-            this.ctx.translate(0, -canvasOffestY);
-        }
-        this.ctx.translate(0, 0);
-    }
+    //     if(this.player.yVel > 0){
+    //         this.ctx.translate(0, canvasOffestY);
+    //     } else if (this.player.yVel < 0){
+    //         this.ctx.translate(0, -canvasOffestY);
+    //     }
+    //     this.ctx.translate(0, 0);
+    // }
 
     update() {
         //Left and Right movement
@@ -206,7 +218,7 @@ class Game {
         }
 
         if(this.controller.shoot){
-            this.bullets.push(new Bullet(this.player.x, this.player.y + this.player.height * 0.333, this.direction, 20))
+            this.bullets.push(new Bullet(this.ctx, this.player.x, this.player.y + this.player.height * 0.333, this.direction, 20))
             this.controller.shoot = false;
             this.blaster.play();
         }
@@ -281,22 +293,8 @@ class Game {
     }
 
     checkCollision(){
-        //moving in the x direction
-        // if(this.player.xVel < 0){ //moving left
-        //     if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'g' || 
-        //     this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5) === 'g'){
-        //         this.player.x = this.player.oldX;
-        //         this.player.xVel = 0;
-        //     }
-        // } else if (this.player.xVel >= 0){ //moving right
-        //     if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'g' ||
-        //      this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'g'){
-        //         this.player.x = this.player.oldX;
-        //         this.player.xVel = 0;
-        //     }
-        // }
-
-        if (this.player.xVel !== 0){ //left and right collision
+        //left and right collision
+        if (this.player.xVel !== 0){ 
             if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'g' || 
             this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5) === 'g' ||
             this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'g' ||
@@ -305,17 +303,12 @@ class Game {
                 this.player.xVel = 0;
              }
         }
-
-        this.player.jumping = true;
-
-        //moving up and down
-        if(this.player.yVel <= 0){ //Top collision
-            if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'g' || this.world.getTile(this.currentMap, this.player.getRight() - 5, this.player.getTop()) === 'g'){
-                this.player.y = this.player.oldY;
-                this.player.yVel = 0;
-            }
-        } else if (this.player.yVel > 0){ //bottom collision
-            if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom()) === 'g' || this.world.getTile(this.currentMap, this.player.getRight() - 5, this.player.getBottom()) === 'g'){
+        //up and down collision
+        if (this.player.yVel < 0 || this.player.yVel > 0){
+            if (this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'g' ||
+            this.world.getTile(this.currentMap, this.player.getRight() - 5, this.player.getTop()) === 'g' ||
+            this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom()) === 'g' ||
+            this.world.getTile(this.currentMap, this.player.getRight() - 5, this.player.getBottom()) === 'g'){
                 this.player.y = this.player.oldY;
                 this.player.yVel = 0;
                 this.player.jumping = false;
