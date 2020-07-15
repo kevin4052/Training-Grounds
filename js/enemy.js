@@ -27,6 +27,7 @@ class Enemy {
         }
         this.animation = new Animation(this.spriteFrames.left, 3)
         this.damage = new Audio("./sounds/09 - EnemyDamage.wav");
+        this.damage.volume = 0.2;
         this.pastBullet;
     }
 
@@ -38,10 +39,12 @@ class Enemy {
     checkBullet(bullet){
         let hitBoxOffset = 10; //pixels
         if (bullet !== this.pastBullet){
-            if (bullet.x + bullet.width > this.x - hitBoxOffset && bullet.y > this.y - hitBoxOffset &&
-                bullet.y + bullet.height < this.y + this.height + hitBoxOffset &&
+            if (bullet.x + bullet.width > this.x - hitBoxOffset && 
+                bullet.y > this.y - hitBoxOffset &&
+                bullet.y + bullet.height < this.y + this.height + hitBoxOffset && 
                 bullet.x < this.x + this.width + hitBoxOffset) {
-                    setTimeout(this.hp -= bullet.strength, 300);
+                    this.hp -= bullet.strength;
+                    this.x += bullet.xVel;
                     this.damage.play();
                     this.pastBullet = bullet;
                 };
