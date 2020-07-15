@@ -54,9 +54,9 @@ class Game {
         //game Audio
         this.blaster = new Audio("./sounds/05 - MegaBuster.wav");
         this.blaster.volume = 0.2;
-        this.healthCanister = new Audio("../sounds/24 - EnergyFill.wav");
+        this.healthCanister = new Audio("./sounds/24 - EnergyFill.wav");
         this.healthCanister.volume = 0.2;
-        this.playerDamage = new Audio("../sounds/07 - MegamanDamage.wav");
+        this.playerDamage = new Audio("./sounds/07 - MegamanDamage.wav");
         this.playerDamage.volume = 0.2;
 
     }
