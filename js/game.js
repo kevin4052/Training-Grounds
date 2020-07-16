@@ -45,7 +45,7 @@ class Game {
         this.bulletImg.src = './images/MegaManSheet5.gif';
         this.gameOver = false;
         this.enemies = {
-            'map1':[],
+            'map1':[new Enemy(this.ctx, 70 * 20, 70 * 18 + 70, 100, 100, 'horizontal')],
             'map2':[new Enemy(this.ctx, 70 * 16 + 35, 70 * 9, 100, 100, 'vertical')],
             'map3':[new Enemy(this.ctx, 70 * 20, 70 * 18 + 70, 100, 100, 'horizontal'),
                     new Enemy(this.ctx, 70 * 10, 70 * 7 + 50, 100, 100, 'vertical')],
@@ -131,13 +131,13 @@ class Game {
 
         this.drawEnemies();
         this.drawBullets();
-        if (this.enemies.length !== 0){
-            for(let j = 0; j < this.enemies[this.currentMap].length; j++){
-                for (let i = 0; i < this.bullets.length ; i++){
-                    this.enemies[this.currentMap][j].checkBullet(this.bullets[i])
-                    if (this.enemies[this.currentMap][j].hp <= 0) {
-                        this.enemies[this.currentMap].splice(j, 1);
-                    }
+
+        for(let j = 0; j < this.enemies[this.currentMap].length; j++){
+            this.player.enemyCollision(this.enemies[this.currentMap][j]);
+            for (let i = 0; i < this.bullets.length ; i++){
+                this.enemies[this.currentMap][j]?.checkBullet(this.bullets[i])
+                if (this.enemies[this.currentMap][j]?.hp <= 0) {
+                    this.enemies[this.currentMap].splice(j, 1);
                 }
             }
         }
@@ -160,7 +160,6 @@ class Game {
     }
 
     drawBullets(){
-
         for (let i = 0; i < this.bullets.length; i++){
             this.bullets[i].update();
             this.bullets[i].draw();
@@ -261,22 +260,22 @@ class Game {
     healthPickup(){
         if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'c') {
             this.world.setTile(this.currentMap, this.player.getLeft(), this.player.getTop(), ".");
-            this.player.hp += 5;
+            this.player.hp += 25;
             this.healthCanister.play();
         }
         if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5) === 'c') {
             this.world.setTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5, ".");
-            this.player.hp += 5;
+            this.player.hp += 25;
             this.healthCanister.play();
         }
         if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'c') {
             this.world.setTile(this.currentMap, this.player.getRight(), this.player.getTop(), ".");
-            this.player.hp += 5;
+            this.player.hp += 25;
             this.healthCanister.play();
         }
         if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'c') {
             this.world.setTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5, ".");
-            this.player.hp += 5;
+            this.player.hp += 25;
             this.healthCanister.play();
         }
 

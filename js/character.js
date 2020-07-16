@@ -91,4 +91,15 @@ class Character {
 
         this.ctx.drawImage(this[spriteDirection], this.animation.sprite.x + this.animation.frame[0] * this.animation.sprite.w, this.animation.sprite.y + this.animation.frame[1] * this.animation.sprite.h, this.animation.sprite.w, this.animation.sprite.h, this.x, this.y, this.width, this.height);
     }
+
+    enemyCollision(enemy){
+        if (enemy.x < this.x + this.width && 
+            enemy.x + enemy.width > this.x &&
+            enemy.y < this.y + this.height &&
+            enemy.y + enemy.height > this.y){
+                this.hp -= enemy.strength;
+                this.x -= 70;
+                this.y -= 80
+            }
+    }
 }

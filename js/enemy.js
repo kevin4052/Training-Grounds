@@ -5,6 +5,7 @@ class Enemy {
         this.height = height;
         this.motion = motion;
         this.hp = 50;
+        this.strength = 20;
         this.startX = x;
         this.startY = y;
         this.x = x;
