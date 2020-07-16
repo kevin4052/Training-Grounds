@@ -44,6 +44,7 @@ class Game {
         this.bulletImg = new Image();
         this.bulletImg.src = './images/MegaManSheet5.gif';
         this.gameOver = false;
+        this.end = false;
         this.enemies = {
             'map1':[new Enemy(this.ctx, 70 * 20, 70 * 18 + 70, 100, 100, 'horizontal')],
             'map2':[new Enemy(this.ctx, 70 * 16 + 35, 70 * 9, 100, 100, 'vertical')],
@@ -134,6 +135,9 @@ class Game {
 
         for(let j = 0; j < this.enemies[this.currentMap].length; j++){
             this.player.enemyCollision(this.enemies[this.currentMap][j]);
+            if (this.player.hit){
+                this.player.animation.changeFrameSet(this.player.spriteFrames.hit, 60);
+            }
             for (let i = 0; i < this.bullets.length ; i++){
                 this.enemies[this.currentMap][j]?.checkBullet(this.bullets[i])
                 if (this.enemies[this.currentMap][j]?.hp <= 0) {
@@ -142,14 +146,17 @@ class Game {
             }
         }
         
-        this.doors();
+        
         this.healthPickup();
         this.playerHit();
         this.checkCollision();
         if(this.player.hp < 0){
             this.gameOver = true;
         }
-        // console.log(this.player.y);
+        if (this.player.getRight() >= this.canvas.width - 10 && this.currentMap === 'map4'){
+            this.end = true;
+        }
+        this.doors();
     }
 
     drawEnemies(){
@@ -191,11 +198,13 @@ class Game {
         //Left and Right movement
         if (this.controller.left) {
             this.direction = 'left';
+            this.player.hit = false;
             this.player.animation.changeFrameSet(this.player.spriteFramesReverse.walk, 8);
             this.player.xVel = this.player.moveSpeed * -1;
         }
         if (this.controller.right) {
             this.direction = 'right';
+            this.player.hit = false;
             this.player.animation.changeFrameSet(this.player.spriteFrames.walk, 8);
             this.player.xVel = this.player.moveSpeed;
         }
@@ -249,7 +258,7 @@ class Game {
     }
 
     doors(){
-        if (this.player.getRight() >= this.canvas.width){
+        if (this.player.getRight() >= this.canvas.width - 10){
             this.player.xVel = 0;
             this.player.x = 130;
             this.player.y = 800;
@@ -291,8 +300,10 @@ class Game {
         this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5) === 'H' ||
         this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'H' ||
         this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'H') {
-           this.player.hp -= 1;
-           this.playerDamage.play();
+            this.player.animation.changeFrameSet(this.player.spriteFrames.hit, 60);
+            this.player.hit = true;
+            this.player.hp -= 1;
+            this.playerDamage.play();
         }        
     }
 
@@ -318,5 +329,21 @@ class Game {
                 this.player.jumping = false;
             }
         }
+
+        // if (this.player.xVel > 0){
+        //     if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'g' ||
+        //     this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'g'){
+        //         this.player.x = this.player.oldX;
+        //         this.player.xVel = 0;
+        //     }
+        // }
+
+        // if (this.player.xVel < 0){
+        //     if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'g' ||
+        //     this.world.getTile(this.currentMap, this.player.getRight() - 5, this.player.getTop()) === 'g') {
+        //         this.player.x = this.player.oldX;
+        //         this.player.xVel = 0;
+        //     }
+        // }
     }
 }

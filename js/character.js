@@ -6,6 +6,7 @@ class Character {
         this.height = height;
         this.hp = 100;
         this.attack = 10;
+        this.hit = false;
         this.x = x;
         this.y = y;
         this.oldX;
@@ -26,46 +27,56 @@ class Character {
         this.playerSpriteReverse.src = './images/megaman_sprite_Sheet_reverse.png';
         this.spriteFrames = {
             'walk': {
-                'value':[[0, 0], [1, 0], [2, 0], [1, 0]], 
-                'x': 66, 'y': 0, 
+                'value':[[0, 0], [1, 0], [2, 0], [1, 0]],
+                'x': 66, 'y': 0,
                 'w': 22, 'h':26
             },
             'jump': {
-                'value':[[0, 0]], 
-                'x': 129, 'y': 0, 
+                'value':[[0, 0]],
+                'x': 129, 'y': 0,
                 'w': 27, 'h':31
             },
             'standing': {
-                'value':[[0, 0], [1, 0]], 
-                'x': 0, 'y': 0, 
+                'value':[[0, 0], [1, 0]],
+                'x': 0, 'y': 0,
                 'w': 22, 'h':26
             },
             'falling': {
-                'value':[[0, 0]], 
-                'x': 129, 'y': 0, 
+                'value':[[0, 0]],
+                'x': 129, 'y': 0,
                 'w': 27, 'h':31
+            },
+            'hit': {
+                'value':[[0, 0]],
+                'x': 209, 'y': 72,
+                'w': 27, 'h':29
             }
         };
         this.spriteFramesReverse = {
             'walk': {
-                'value':[[0, 0], [-1, 0], [-2, 0], [-1, 0]], 
-                'x': 182, 'y': 0, 
+                'value':[[0, 0], [-1, 0], [-2, 0], [-1, 0]],
+                'x': 182, 'y': 0,
                 'w': 22, 'h':26
             },
             'jump': {
-                'value':[[0, 0]], 
-                'x': 113, 'y': 0, 
+                'value':[[0, 0]],
+                'x': 113, 'y': 0,
                 'w': 27, 'h':31
             },
             'standing': {
-                'value':[[0, 0], [-1, 0]], 
-                'x': 247, 'y': 0, 
+                'value':[[0, 0], [-1, 0]],
+                'x': 247, 'y': 0,
                 'w': 22, 'h':26
             },
             'falling': {
-                'value':[[0, 0]], 
-                'x': 113, 'y': 0, 
+                'value':[[0, 0]],
+                'x': 113, 'y': 0,
                 'w': 27, 'h':31
+            },
+            'hit': {
+                'value':[[0, 0]],
+                'x': 33, 'y': 72,
+                'w': 27, 'h':29
             }
         };
         this.animation = new Animation(this.spriteFrames.standing, 30);
@@ -97,6 +108,7 @@ class Character {
             enemy.x + enemy.width > this.x &&
             enemy.y < this.y + this.height &&
             enemy.y + enemy.height > this.y){
+                this.hit = true;
                 this.hp -= enemy.strength;
                 this.x -= 70;
                 this.y -= 80
