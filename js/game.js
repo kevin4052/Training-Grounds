@@ -60,7 +60,7 @@ class Game {
         this.playerDamage = new Audio("./sounds/07 - MegamanDamage.wav");
         this.playerDamage.volume = 0.2;
         this.playerDeath = new Audio("./sounds/08 - MegamanDefeat.wav");
-        this.playerDeath.volume = 0.2;
+        this.playerDeath.volume = 0.35;
         this.doorOpen = new Audio("./sounds/15 - GutsQuake.wav");
         this.doorOpen.volume = 0.2;
 
@@ -268,8 +268,8 @@ class Game {
     doors(){
         if (this.player.getRight() >= this.canvas.width - 20){
             this.player.xVel = 0;
-            this.player.x = 130;
-            this.player.y = 800;
+            this.player.x = 73;
+            this.player.y = 780;
             this.currentMap = this.currentMap.substr(0, 3) + String(Number(this.currentMap.substr(3, 1)) + 1);
         }
     }

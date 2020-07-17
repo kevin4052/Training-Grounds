@@ -57,9 +57,9 @@ class World {
         this.map3 = "";
         this.map3 += "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
         this.map3 += "gggggggggggggggggggggggggggggggggggggggg";
-        this.map3 += "g.................g....................g";
-        this.map3 += "g.................g....................g";
-        this.map3 += "g.................g....................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
+        this.map3 += "g......................................g";
         this.map3 += "g......c...............................g";
         this.map3 += "g.............H...........cccc.........g";
         this.map3 += "g.............H........gggggggggggg....g";
@@ -91,15 +91,15 @@ class World {
         this.map4 += "g.........ggg..gggg....................g";
         this.map4 += "g..............g..g....................g";
         this.map4 += "g..............g..gg...................g";
-        this.map4 += "g.........gggggg..gggggggggggggg.......g";
-        this.map4 += "ggg....................................g";
+        this.map4 += "g.........gggggg..gggggggggggggg.....ggg";
         this.map4 += "g......................................g";
+        this.map4 += "g.............................ggg......g";
         this.map4 += "g...gggg...............................g";
-        this.map4 += "g........g.............................g";
-        this.map4 += "g.........gggggg.......................g";
-        this.map4 += "g..............gg......gggHHggg........g";
-        this.map4 += "g.....................gggggggggg.......g";
-        this.map4 += "g........c...........gggggggggggg......g";
+        this.map4 += "g........g........................gggggg";
+        this.map4 += "g.........gggggg.................gg....g";
+        this.map4 += "g..............gg......................g";
+        this.map4 += "g.......................gggggg.........g";
+        this.map4 += "g........c.............................g";
         this.map4 += "gggggggggggggggggggggggggggggggggggggggg";
 
 

@@ -1,5 +1,6 @@
 const canvas = document.querySelector('#game-canvas');
 const ctx = canvas.getContext('2d');
+ctx.font = "100px Do Hyeon";
 
 const world = new World();
 const game = new Game(ctx, canvas, world);
@@ -19,9 +20,6 @@ const gameEndImg2 = new Image();
 gameEndImg1.src = "./images/mmx1-GameEnd_1.png";
 gameEndImg2.src = "./images/mmx1-GameEnd_2.png";
 const gameEndSpriteFrames = {"value":[[gameEndImg1], [gameEndImg2]]};
-//game controls
-const gamecontrols = new Image();
-gamecontrols.src = "./images/WASD.png"
 
 canvas.width = world.columns * world.tileSize;
 canvas.height = world.rows * world.tileSize;
@@ -45,7 +43,6 @@ function introScreen() {
 
     ctx.fillText("CLICK TO START", canvas.width * 0.375, canvas.height * 0.8);
 
-    ctx.drawImage(gamecontrols, 100, 100)
     document.addEventListener('click', () => {
         gameAudio.play();
         gameLoop();
