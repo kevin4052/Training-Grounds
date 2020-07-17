@@ -1,34 +1,42 @@
-body {
+html, body {
+    margin: 0;
+    padding: 0;
     font-family: 'Do Hyeon', sans-serif;
     color: white;
-    /* background-color: rgb(12, 75, 146); */
-    /* background: linear-gradient(0deg, #2980b9, transparent); */
+    background: linear-gradient(0deg, #2980b9, transparent);
     background-image: url(../images/104598-space-pixel_art-horizon-stars.jpg);
     background-size: cover;
-    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
-    height: 97vh;
+    height: 100%;
 }
 
-#title{
-    /* position: absolute;
-    left: 50%;
-    transform: translate(-50%); */
-    margin: 20px auto;
-    /* background-image: url(../images/megaManTitle.png); */
+.container {}
+
+#title img{
+    margin: 10px 0 0 10vw;
+    width: 67vw;
 }
 
-#fanArt img{
+#sub-title{
+    position: absolute;
+    top: 60px;
+    left: 60vw;
+}
+
+#sub-title p {
+    font-size: 50px;
+}
+
+/* #fanArt img{
     height: 30vw;
-}
+} */
 
 #game-canvas {
-    /* position: absolute;
-    top: 60%;
+    position: absolute;
+    top: 55%;
     left: 50%;
-    transform: translate(-50%, -50%); */
-    margin: auto;
+    transform: translate(-50%, -50%);
     border: 1px solid white;
     width: 70vw;
     max-width: 800px;

@@ -27,7 +27,7 @@ class World {
         this.map1 += "g......................................g";
         this.map1 += "g......................................g";
         this.map1 += "g......................................g";
-        this.map1 += "g......T....gggHHHggg..........c.......g";
+        this.map1 += "g......T......gggHHHggg........c.......g";
         this.map1 += "gggggggggggggggggggggggggggggggggggggggg";
 
         this.map2 = "";

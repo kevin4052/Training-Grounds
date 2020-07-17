@@ -11,19 +11,19 @@
 </head>
 
 <body>
-    <!-- <audio id="myAudio" autoplay loop src="./sounds/01 Stage Select.mp3"></audio> -->
+    <div class="container">
+        <div id="title">
+            <img src="./images/logo.png" alt="Mega Man Title">
+        </div>
+        <div id="sub-title">
+            <p>Training Grounds</p>
+        </div>
+        <div>
+            <canvas id="game-canvas"></canvas>
+        </div>
+    </div>
 
-    <!-- <div id="title">
-        <img src="./images/megaManTitle.png" alt="Mega Man Title">
-    </div> -->
 
-    <canvas id="game-canvas"></canvas>
-
-
-    <!-- <script>
-        let gameAudio = document.querySelector('#myAudio')
-        gameAudio.volume = 0.2;
-    </script> -->
     <script src="./js/animation.js"></script>
     <script src="./js/bullet.js"></script>
     <script src="./js/character.js"></script>

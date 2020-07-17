@@ -20,7 +20,7 @@ class Game {
         this.cameraOffsetY = 0;
         //static background image
         this.background = new Image();
-        this.background.src = './images/Big Room.bmp'
+        this.background.src = './images/NES - Mega Man - Tiles.png';
         //static floor image
         this.ground = new Image();
         this.ground.src = './images/MegaManSheet5.gif';
@@ -46,7 +46,7 @@ class Game {
         this.gameOver = false;
         this.end = false;
         this.enemies = {
-            'map1':[new Enemy(this.ctx, 70 * 20, 70 * 18 + 70, 100, 100, 'horizontal')],
+            'map1':[new Enemy(this.ctx, 70 * 12, 70 * 17 + 70, 100, 100, 'horizontal')],
             'map2':[new Enemy(this.ctx, 70 * 16 + 35, 70 * 9, 100, 100, 'vertical')],
             'map3':[new Enemy(this.ctx, 70 * 20, 70 * 18 + 70, 100, 100, 'horizontal'),
                     new Enemy(this.ctx, 70 * 10, 70 * 7 + 50, 100, 100, 'vertical')],
@@ -59,6 +59,10 @@ class Game {
         this.healthCanister.volume = 0.2;
         this.playerDamage = new Audio("./sounds/07 - MegamanDamage.wav");
         this.playerDamage.volume = 0.2;
+        this.playerDeath = new Audio("./sounds/08 - MegamanDefeat.wav");
+        this.playerDeath.volume = 0.2;
+        this.doorOpen = new Audio("./sounds/15 - GutsQuake.wav");
+        this.doorOpen.volume = 0.2;
 
     }
 
@@ -96,7 +100,10 @@ class Game {
                         this.ctx.drawImage(this.ground, 98, 663, 17, 16, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         break;
                     case 'g':
-                        this.ctx.drawImage(this.ground, 73, 445, 34, 34, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
+                        this.ctx.drawImage(this.ground, 74, 446, 32, 32, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
+                        break;
+                    case '.':
+                        // this.ctx.drawImage(this.background, 362, 121, 14, 14, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         break;
                     case 'c':                        
                         this.ctx.drawImage(this.health, this.healthAnimation.sprite.x + this.healthAnimation.frame[0] * this.healthAnimation.sprite.w, this.healthAnimation.sprite.y + this.healthAnimation.frame[1] * this.healthAnimation.sprite.h, this.healthAnimation.sprite.w, this.healthAnimation.sprite.h, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize * 0.75);
@@ -151,9 +158,10 @@ class Game {
         this.playerHit();
         this.checkCollision();
         if(this.player.hp < 0){
+            this.playerDeath.play();
             this.gameOver = true;
         }
-        if (this.player.getRight() >= this.canvas.width - 10 && this.currentMap === 'map4'){
+        if (this.player.getRight() >= this.canvas.width - 20 && this.currentMap === 'map4'){
             this.end = true;
         }
         this.doors();
@@ -258,7 +266,7 @@ class Game {
     }
 
     doors(){
-        if (this.player.getRight() >= this.canvas.width - 10){
+        if (this.player.getRight() >= this.canvas.width - 20){
             this.player.xVel = 0;
             this.player.x = 130;
             this.player.y = 800;
@@ -270,27 +278,35 @@ class Game {
         if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'c') {
             this.world.setTile(this.currentMap, this.player.getLeft(), this.player.getTop(), ".");
             this.player.hp += 25;
+            if (this.player.hp > 100) this.player.hp = 100;
             this.healthCanister.play();
         }
         if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5) === 'c') {
             this.world.setTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5, ".");
             this.player.hp += 25;
+            if (this.player.hp > 100) this.player.hp = 100;
             this.healthCanister.play();
         }
         if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'c') {
             this.world.setTile(this.currentMap, this.player.getRight(), this.player.getTop(), ".");
             this.player.hp += 25;
+            if (this.player.hp > 100) this.player.hp = 100;
             this.healthCanister.play();
         }
         if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'c') {
             this.world.setTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5, ".");
             this.player.hp += 25;
+            if (this.player.hp > 100) this.player.hp = 100;
             this.healthCanister.play();
         }
 
         if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'T') {
+            this.world.setTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5, ".")
             for (let i = 0; i < 5; i++){
-                setTimeout(() => {this.world.setTile(this.currentMap, 39 * 70, (21 - i) * 70 - 5, ".")}, 200 * (i + 1));
+                setTimeout(() => {
+                    this.world.setTile(this.currentMap, 39 * 70, (21 - i) * 70 - 5, ".");
+                    this.doorOpen.play();
+                }, 200 * (i + 1));
             }
         }
     }
