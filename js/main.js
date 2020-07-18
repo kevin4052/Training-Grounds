@@ -4,6 +4,7 @@ ctx.font = "100px Do Hyeon";
 
 const world = new World();
 const game = new Game(ctx, canvas, world);
+let gameStart = false;
 
 //Game over sprite animation
 const gameOverImg = new Image();
@@ -37,15 +38,16 @@ function introScreen() {
     ctx.font = "100px Do Hyeon";
     ctx.fillText("Welcome to the Training Grounds", canvas.width * 0.25, canvas.height * 0.15);
     ctx.fillText("Here you will help Mega Man get ready for his next mission", canvas.width * 0.07, canvas.height * 0.25);
-
     ctx.fillText("Use the arrow keys to move around", canvas.width * 0.235, canvas.height * 0.45);
     ctx.fillText("and the space bar to shoot", canvas.width * 0.3, canvas.height * 0.55);
-
     ctx.fillText("CLICK TO START", canvas.width * 0.375, canvas.height * 0.8);
 
     document.addEventListener('click', () => {
-        gameAudio.play();
-        gameLoop();
+        if (!gameStart){
+            gameStart = true;
+            gameAudio.play();
+            gameLoop();
+        }
     })
 }
 
@@ -65,6 +67,7 @@ function gameLoop() {
 }
 
 function gameOver(){
+    gameStart = false;
     ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(gameOverImg, 0 + gameOverSprite.frame[0] * gameOverSprite.sprite.w, 0 + gameOverSprite.frame[1] * gameOverSprite.sprite.h, 353, 160, (canvas.width - 1400) / 2, (canvas.height - 700) / 2, 1400, 700);
@@ -75,6 +78,7 @@ function gameOver(){
 }
 
 function end(){
+    gameStart = false;
     ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(gameEndImg1, 0, 0, 353, 160, (canvas.width - 1400) / 2, (canvas.height - 700) / 2, 1400, 700);

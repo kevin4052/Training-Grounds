@@ -47,10 +47,14 @@ class Game {
         this.end = false;
         this.enemies = {
             'map1':[new Enemy(this.ctx, 70 * 12, 70 * 17 + 70, 100, 100, 'horizontal')],
-            'map2':[new Enemy(this.ctx, 70 * 16 + 35, 70 * 9, 100, 100, 'vertical')],
+            'map2':[new Enemy(this.ctx, 70 * 24 + 35, 70 * 9, 100, 100, 'vertical')],
             'map3':[new Enemy(this.ctx, 70 * 20, 70 * 18 + 70, 100, 100, 'horizontal'),
-                    new Enemy(this.ctx, 70 * 10, 70 * 7 + 50, 100, 100, 'vertical')],
-            'map4':[new Enemy(this.ctx, 70 * 22, 70 * 7 + 50, 100, 100, 'vertical')],
+                    new Enemy(this.ctx, 70 * 10, 70 * 7 + 50, 100, 100, 'vertical'),
+                    new Enemy(this.ctx, 70 * 25, 70 * 2 + 50, 100, 100, 'vertical'),
+                    new Enemy(this.ctx, 70 * 33, 70 * 4 + 50, 100, 100, 'vertical')],
+            'map4':[new Enemy(this.ctx, 70 * 22, 70 * 7 + 50, 100, 100, 'horizontal'),
+                    new Enemy(this.ctx, 70 * 24, 70 * 9 + 50, 100, 100, 'horizontal'),
+                    new Enemy(this.ctx, 70 * 26, 70 * 12 + 50, 100, 100, 'horizontal')],
         }
         //game Audio
         this.blaster = new Audio("./sounds/05 - MegaBuster.wav");
@@ -95,8 +99,6 @@ class Game {
                         this.ctx.fillRect((x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         break;
                     case 'T':
-                        // this.ctx.fillStyle = "white";
-                        // this.ctx.fillRect((x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         this.ctx.drawImage(this.ground, 98, 663, 17, 16, (x + this.cameraOffsetX) * this.world.tileSize, (y + this.cameraOffsetY) * this.world.tileSize, this.world.tileSize, this.world.tileSize);
                         break;
                     case 'g':
@@ -130,11 +132,6 @@ class Game {
         this.player.animation.update();
         this.update();
 
-        // this.playerTopLeft = this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop());
-        // this.playerTopRight = this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop());
-        // this.playerBottomLeft = this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5);
-        // this.playerBottomRight = this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5);
-
         this.player.draw(this.direction);
 
         this.drawEnemies();
@@ -164,6 +161,7 @@ class Game {
         if (this.player.getRight() >= this.canvas.width - 20 && this.currentMap === 'map4'){
             this.end = true;
         }
+        this.openDoor();
         this.doors();
     }
 
@@ -269,10 +267,10 @@ class Game {
         if (this.player.getRight() >= this.canvas.width - 20){
             this.player.xVel = 0;
             this.player.x = 73;
-            this.player.y = 780;
+            this.player.y = 1200;
             this.currentMap = this.currentMap.substr(0, 3) + String(Number(this.currentMap.substr(3, 1)) + 1);
         }
-    }
+    }    
 
     healthPickup(){
         if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'c') {
@@ -298,17 +296,35 @@ class Game {
             this.player.hp += 25;
             if (this.player.hp > 100) this.player.hp = 100;
             this.healthCanister.play();
-        }
+        }        
+    }
 
+    openDoor(){
+        if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'T') {
+            this.world.setTile(this.currentMap, this.player.getLeft(), this.player.getTop(), ".");
+            this.nextMap();
+        }
+        if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5) === 'T') {
+            this.world.setTile(this.currentMap, this.player.getLeft(), this.player.getBottom() - 5, ".");
+            this.nextMap();
+        }
+        if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'T') {
+            this.world.setTile(this.currentMap, this.player.getRight(), this.player.getTop(), ".");
+            this.nextMap();
+        }
         if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'T') {
-            this.world.setTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5, ".")
-            for (let i = 0; i < 5; i++){
+            this.world.setTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5, ".");
+            this.nextMap();
+        }
+    }
+
+    nextMap(){
+        for (let i = 0; i < 5; i++){
                 setTimeout(() => {
                     this.world.setTile(this.currentMap, 39 * 70, (21 - i) * 70 - 5, ".");
                     this.doorOpen.play();
                 }, 200 * (i + 1));
             }
-        }
     }
 
     playerHit(){
@@ -345,21 +361,5 @@ class Game {
                 this.player.jumping = false;
             }
         }
-
-        // if (this.player.xVel > 0){
-        //     if(this.world.getTile(this.currentMap, this.player.getRight(), this.player.getTop()) === 'g' ||
-        //     this.world.getTile(this.currentMap, this.player.getRight(), this.player.getBottom() - 5) === 'g'){
-        //         this.player.x = this.player.oldX;
-        //         this.player.xVel = 0;
-        //     }
-        // }
-
-        // if (this.player.xVel < 0){
-        //     if(this.world.getTile(this.currentMap, this.player.getLeft(), this.player.getTop()) === 'g' ||
-        //     this.world.getTile(this.currentMap, this.player.getRight() - 5, this.player.getTop()) === 'g') {
-        //         this.player.x = this.player.oldX;
-        //         this.player.xVel = 0;
-        //     }
-        // }
     }
 }
