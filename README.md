@@ -1,11 +1,22 @@
 # Mega Man Training Grounds
 [Live Demo](https://kevin4052.github.io/project-game-platformer/)
 
+This game was inspired by my love for platformors as a child.
+
 ## Game Features
 * Enemies
 * Lava floors
 * Shooting
+* Hidden doors
 * 2D platforming!
 
-## Game
-1[Starting Screen](images/demo-start.JPG)
+## Game Play
+![Starting Screen](https://github.com/kevin4052/project-game-platformer/blob/master/images/demo-start.JPG)
+![Room Three](https://github.com/kevin4052/project-game-platformer/blob/master/images/demo-room3.JPG)
+
+## Future Upgrades
+* Expand the level sizes
+* Implement camera tracking
+* Improve sprite animation
+* Add new enemies
+* Boss battle
