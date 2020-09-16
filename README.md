@@ -20,3 +20,4 @@ This game was inspired by my love for platformors as a child.
 * Improve sprite animation
 * Add new enemies
 * Boss battle
+* Make game mobile friendly (currently only for desktop)
