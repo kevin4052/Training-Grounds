@@ -1,5 +1,5 @@
 # Mega Man Training Grounds
-[Live Demo](https://kevin4052.github.io/project-game-platformer/)
+[Live Demo](https://kevin4052.github.io/Training-Grounds/)
 
 This game was inspired by my love for platformors as a child.
 
