@@ -26,7 +26,7 @@ canvas.width = world.columns * world.tileSize;
 canvas.height = world.rows * world.tileSize;
 
 const gameAudio = new Audio("./sounds/11 Dr. Wily's Castle.mp3");
-gameAudio.volume = 0.1;
+gameAudio.volume = 0.07;
 gameAudio.loop = true;
 
 let requestId;
